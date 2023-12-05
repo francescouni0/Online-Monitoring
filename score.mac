@@ -1,0 +1,143 @@
+
+#######################################
+# (Edit the next line to choose another graphic system)
+/vis/open OGL
+#
+# draw scene
+/vis/drawVolume worlds
+#
+#/vis/viewer/set/viewpointThetaPhi 105 165 deg
+# Set specific color for identification
+###/vis/geometry/set/colour Calor-AP_LayerLog ! yellow
+###/vis/geometry/set/colour Calor-BP_LayerLog ! yellow
+###/vis/geometry/set/colour Calor-CP_LayerLog ! yellow
+#/vis/viewer/zoom 2.0
+##############/vis/viewer/flush
+#
+# for drawing the tracks
+/vis/scene/endOfEventAction accumulate
+/vis/scene/add/trajectories
+# If too many tracks, /vis/disable before running many events
+
+
+#########################################
+##
+## define scoring mesh
+##G4PSFlatSurfaceFlux
+#/score/create/boxMesh boxMesh_1
+##
+#/score/mesh/boxSize 500. 1. 500. mm
+#/score/mesh/nBin 200 1 200
+#/score/mesh/translate/xyz 0. 650. 0. mm
+##
+##/score/quantity/doseDeposit eDep Gy
+#/score/quantity/flatSurfaceCurrent popgamma
+#/score/filter/particle gammaFilter gamma
+#/score/filter/particleWithKineticEnergy gammaFilter2  0.510 0.511 MeV 
+#/score/quantity/flatSurfaceCurrent popEMinus
+#/score/filter/particle eMinusFilter e-
+#/score/quantity/flatSurfaceCurrent popEPlus
+#/score/filter/particle ePlusFilter e+
+##
+#/score/close
+##
+#/score/list
+##
+#########################################
+#
+/score/create/cylinderMesh cilMesh_1
+
+/score/mesh/cylinderRMin 599 mm
+
+
+/score/mesh/cylinderSize 600 505 mm
+/score/mesh/rotate/rotateY 90 deg
+
+/score/mesh/nBin 60 60 1
+
+/score/quantity/population popgamma
+/score/filter/particle gammaFilter gamma
+#/score/filter/kineticEnergy gammaFilter2 0.510 0.511 MeV 
+
+/score/close
+
+
+
+
+
+
+#########################################
+
+
+
+
+/vis/disable
+/control/verbose 2
+/run/verbose 1
+#######/event/verbose 1
+#######/tracking/verbose 1
+#######/vis/verbose confirmations
+
+
+
+
+
+
+/run/beamOn 1
+#######################################
+# (Edit the next line to choose another graphic system)
+/vis/open OGL
+#
+# draw scene
+/vis/drawVolume worlds
+#
+#/vis/viewer/set/viewpointThetaPhi 105 165 deg
+# Set specific color for identification
+###/vis/geometry/set/colour Calor-AP_LayerLog ! yellow
+###/vis/geometry/set/colour Calor-BP_LayerLog ! yellow
+###/vis/geometry/set/colour Calor-CP_LayerLog ! yellow
+#/vis/viewer/zoom 2.0
+##############/vis/viewer/flush
+#
+# for drawing the tracks
+/vis/scene/endOfEventAction accumulate
+/vis/scene/add/trajectories
+# If too many tracks, /vis/disable before running many events
+
+
+########################################
+#
+
+#
+########################################
+#
+
+########################################
+#
+
+#
+#######################################
+#
+
+
+#/score/dumpQuantityToFile boxMesh_1 popgamma popgammasliceydown.txt
+/vis/enable
+/vis/scene/add/axes 0 0 0 100 cm
+
+#
+########################################
+#
+# drawing projections
+#
+/score/drawProjection cilMesh_1 popgamma
+#/score/drawProjection boxMesh_1 popgamma 
+#/score/drawProjection boxMesh_1 popEMinus
+#/score/drawProjection boxMesh_1 popEPlus
+#
+
+#
+#######################################
+#
+
+
+#/score/dumpQuantityToFile boxMesh_1 popgamma popgammasliceydown.txt
