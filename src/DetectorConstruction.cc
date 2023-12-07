@@ -191,7 +191,7 @@ void DetectorConstruction::DefineMaterials()
                              kStateGas,temperature,pressure);
                              
   fDefaultMaterial = Galactic;
-  tubemat=man->FindOrBuildMaterial("G4_Pb");
+  tubemat=man->FindOrBuildMaterial("G4_Al");
   
   //  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
@@ -223,7 +223,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   //
   // World
   //
-G4double worldSizeX = fAbsorSizeX*20;  // Make the world volume twice as big as the absorber
+G4double worldSizeX = fAbsorSizeX*50;  // Make the world volume twice as big as the absorber
 G4double worldSizeYZ = fAbsorSizeYZ*20; 
 
 G4Box* solidWorld =
@@ -246,38 +246,40 @@ G4Box* solidWorld =
 
   //FADD
   // Create the tube (hollow cylindrical shape) with inner and outer radii and height
-//  G4double innerRadius = 250* mm;
-//  G4double outerRadius = 255* mm;
-//  G4double height = 600 * mm;
-//  G4Tubs* solidTube = new G4Tubs("Tube", innerRadius, outerRadius, height , 0.0, 2 * M_PI);
-//  G4LogicalVolume* logicTube =
-//      new G4LogicalVolume(solidTube,
-//                          tubemat, // Air material
-//                          "Tube");
-//  G4ThreeVector tubePosition = G4ThreeVector(0, 0, 0); // Position of the tube inside the world
-//   G4RotationMatrix* rotation = new G4RotationMatrix();
-//  rotation->rotateY(90.0 * degree);
-//  new G4PVPlacement(rotation,
-//                    tubePosition,
-//                    logicTube,
-//                    "Tube",
-//                    logicWorld,
-//                    false,
-//                    0);
-////
+  G4double innerRadius = 250* mm;
+  G4double outerRadius = 262* mm;
+  G4double height = 7 * cm;
+  G4Tubs* solidTube = new G4Tubs("Tube", innerRadius, outerRadius, height , 0.0, 2 * M_PI);
+  G4LogicalVolume* logicTube =
+      new G4LogicalVolume(solidTube,
+                          tubemat, // Air material
+                          "Tube");
+  G4ThreeVector tubePosition = G4ThreeVector(0, 0, 0); // Position of the tube inside the world
+   G4RotationMatrix* rotation = new G4RotationMatrix();
+  rotation->rotateY(90.0 * degree);
+  new G4PVPlacement(rotation,
+                    tubePosition,
+                    logicTube,
+                    "Tube",
+                    logicWorld,
+                    false,
+                    0);
+//
 //piombino
-//  G4double radius = 0.5* cm;
+//  G4NistManager* nist = G4NistManager::Instance();
+//  G4Material* lead = nist->FindOrBuildMaterial("G4_Pb");
+//  G4double radius = 0.13* cm;
 //  G4Sphere* solidSphere = new G4Sphere("Sphere", 0, radius, 0, 2 * M_PI, 0, M_PI);
 //  G4LogicalVolume* logicSphere =
 //      new G4LogicalVolume(solidSphere,
-//                          tubemat, // Air material
+//                          lead, // Air material
 //                          "Sphere");
 //   // Set visual attributes for visualization
 //  G4VisAttributes* VisAtt = new G4VisAttributes(G4Colour(0, 0, 1)); // blue color
 //  VisAtt->SetVisibility(true);
 //  logicSphere->SetVisAttributes(VisAtt);
 //  
-//  G4ThreeVector spherePosition = G4ThreeVector(-85*mm, 0, 0); // Position of the sphere inside the world
+//  G4ThreeVector spherePosition = G4ThreeVector(-13.3*mm, 0, 0); // Position of the sphere inside the world
 //  new G4PVPlacement(0,
 //                    spherePosition,
 //                    logicSphere,
@@ -285,7 +287,42 @@ G4Box* solidWorld =
 //                    logicWorld,
 //                    false,
 //                    0);
+////piombino2
 //
+//  G4Sphere* solidSphere1 = new G4Sphere("Sphere1", 0, radius, 0, 2 * M_PI, 0, M_PI);
+//  G4LogicalVolume* logicSphere1 =
+//      new G4LogicalVolume(solidSphere1,
+//                          lead, // Air material
+//                          "Sphere1");
+//   // Set visual attributes for visualization
+//  VisAtt->SetVisibility(true);
+//  logicSphere->SetVisAttributes(VisAtt);
+//  
+//  G4ThreeVector spherePosition1 = G4ThreeVector(-15.3*mm, 0, 0); // Position of the sphere inside the world
+//  new G4PVPlacement(0,
+//                    spherePosition1,
+//                    logicSphere1,
+//                    "Sphere1",
+//                    logicWorld,
+//                    false,
+//                    0);
+  G4Box* solidBox = new G4Box("Box",1*cm, 1*cm, 0.5*cm);
+  G4NistManager* nist = G4NistManager::Instance();
+  G4Material* lead = nist->FindOrBuildMaterial("G4_Pb");
+  G4LogicalVolume* logicBox =
+      new G4LogicalVolume(solidBox,
+                          lead, // Air material
+                          "Box");
+  G4ThreeVector boxposition= G4ThreeVector(-20*mm, 0, 0);
+  new G4PVPlacement(rotation,
+                    boxposition,
+                    logicBox,
+                    "Box",
+                    logicWorld,
+                    false,
+                    0);
+   // Set visual attributes for visualization
+
 //Cono
 //  // Set cone dimensions
 //  G4double innerRadius1 = 0.0 * mm; // Inner radius of the cone at the small end
@@ -410,71 +447,71 @@ G4Box* solidWorld =
 
 //Septa1 & 2
 
-  // Define septa dimensions
-  G4double septaX = 3 * cm;
-  G4double septaY = 67.5 * cm;
-  G4double septaZ = 20 * cm;
-
-  G4NistManager* nist = G4NistManager::Instance();
-  G4Material* lead = nist->FindOrBuildMaterial("G4_Pb");
-  G4VSolid* collimatorSolid = new G4Box("Collimator_Solid", septaX / 2, septaY / 2, septaZ / 2);
-
-  //  // Create logical volume for the first collimator
-
-  G4LogicalVolume* firstCollimatorLogical = new G4LogicalVolume(collimatorSolid, lead, "FirstCollimator_Logical");
-  // Position the first collimator
-  G4ThreeVector firstCollimatorPosition = G4ThreeVector(-6.5 * cm, 0.0, 41.25*cm); // Example position 20 cm in front of the detector
-  G4RotationMatrix* Rotation = new G4RotationMatrix();
-  Rotation->rotateX(90.0 * deg);
-  G4Transform3D firstCollimatorTransform = G4Transform3D(*Rotation, firstCollimatorPosition);
-  // Place the first collimator in the detector setup
-  new G4PVPlacement(firstCollimatorTransform, firstCollimatorLogical, "FirstCollimator_Physical", logicWorld, false, 0);
-  // Create a second collimator with holes
-  G4VSolid* secondCollimatorSolid = collimatorSolid;
-  // Create logical volume for the second collimator
-  G4LogicalVolume* secondCollimatorLogical = new G4LogicalVolume(secondCollimatorSolid, lead, "SecondCollimator_Logical");
-  // Position the second collimator
-  G4ThreeVector secondCollimatorPosition = G4ThreeVector(-6.5*cm, 0.0, -41.25*cm); // Adjust position for separation
-  G4Transform3D secondCollimatorTransform = G4Transform3D(*Rotation, secondCollimatorPosition);
-  // Place the second collimator in the detector setup
-  new G4PVPlacement(secondCollimatorTransform, secondCollimatorLogical, "SecondCollimator_Physical", logicWorld, false, 1);
-  // Create red visualization attribute
-  G4VisAttributes* redVisAtt = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0)); // Red color
-  // Set visualization attributes for the first collimator
-  firstCollimatorLogical->SetVisAttributes(redVisAtt);
-  // Set visualization attributes for the second collimator
-  secondCollimatorLogical->SetVisAttributes(redVisAtt);
+//  // Define septa dimensions
+//  G4double septaX = 3 * cm;
+//  G4double septaY = 67.5 * cm;
+//  G4double septaZ = 20 * cm;
+//
+//  G4NistManager* nist = G4NistManager::Instance();
+//  G4Material* lead = nist->FindOrBuildMaterial("G4_Pb");
+//  G4VSolid* collimatorSolid = new G4Box("Collimator_Solid", septaX / 2, septaY / 2, septaZ / 2);
+//
+//  //  // Create logical volume for the first collimator
+//
+//  G4LogicalVolume* firstCollimatorLogical = new G4LogicalVolume(collimatorSolid, lead, "FirstCollimator_Logical");
+//  // Position the first collimator
+//  G4ThreeVector firstCollimatorPosition = G4ThreeVector(-6.5 * cm, 0.0, 41.25*cm); // Example position 20 cm in front of the detector
+//  G4RotationMatrix* Rotation = new G4RotationMatrix();
+//  Rotation->rotateX(90.0 * deg);
+//  G4Transform3D firstCollimatorTransform = G4Transform3D(*Rotation, firstCollimatorPosition);
+//  // Place the first collimator in the detector setup
+//  new G4PVPlacement(firstCollimatorTransform, firstCollimatorLogical, "FirstCollimator_Physical", logicWorld, false, 0);
+//  // Create a second collimator with holes
+//  G4VSolid* secondCollimatorSolid = collimatorSolid;
+//  // Create logical volume for the second collimator
+//  G4LogicalVolume* secondCollimatorLogical = new G4LogicalVolume(secondCollimatorSolid, lead, "SecondCollimator_Logical");
+//  // Position the second collimator
+//  G4ThreeVector secondCollimatorPosition = G4ThreeVector(-6.5*cm, 0.0, -41.25*cm); // Adjust position for separation
+//  G4Transform3D secondCollimatorTransform = G4Transform3D(*Rotation, secondCollimatorPosition);
+//  // Place the second collimator in the detector setup
+//  new G4PVPlacement(secondCollimatorTransform, secondCollimatorLogical, "SecondCollimator_Physical", logicWorld, false, 1);
+//  // Create red visualization attribute
+//  G4VisAttributes* redVisAtt = new G4VisAttributes(G4Colour(1.0, 0.0, 0.0)); // Red color
+//  // Set visualization attributes for the first collimator
+//  firstCollimatorLogical->SetVisAttributes(redVisAtt);
+//  // Set visualization attributes for the second collimator
+//  secondCollimatorLogical->SetVisAttributes(redVisAtt);
 
 
   //Septa 3&4
   // Define septa dimensions
 
 
-  G4VSolid* thirdcollimatorSolid = new G4Box("ThirdCollimator_Solid", septaX / 2, septaY / 2, septaZ / 2);
-
-  //  // Create logical volume for the first collimator
-
-  G4LogicalVolume* thirdCollimatorLogical = new G4LogicalVolume(thirdcollimatorSolid, lead, "ThirdCollimator_Logical");
-  // Position the first collimator
-  G4ThreeVector thirdCollimatorPosition = G4ThreeVector(6.5 * cm, 0.0, 41.25*cm); // Example position 20 cm in front of the detector
-  G4Transform3D thirdCollimatorTransform = G4Transform3D(*Rotation, thirdCollimatorPosition);
-  // Place the first collimator in the detector setup
-  new G4PVPlacement(thirdCollimatorTransform, thirdCollimatorLogical, "ThirdCollimator_Physical", logicWorld, false, 0);
-  // Create a second collimator with holes
-  G4VSolid* fourthCollimatorSolid = collimatorSolid;
-  // Create logical volume for the fourth collimator
-  G4LogicalVolume* fourthCollimatorLogical = new G4LogicalVolume(fourthCollimatorSolid, lead, "fourthCollimator_Logical");
-  // Position the fourth collimator
-  G4ThreeVector fourthCollimatorPosition = G4ThreeVector(6.5*cm, 0.0, -41.25*cm); // Adjust position for separation
-  G4Transform3D fourthCollimatorTransform = G4Transform3D(*Rotation, fourthCollimatorPosition);
-  // Place the fourth collimator in the detector setup
-  new G4PVPlacement(fourthCollimatorTransform, fourthCollimatorLogical, "fourthCollimator_Physical", logicWorld, false, 1);
-  // Create red visualization attribute
-  G4VisAttributes* cVisAtt = new G4VisAttributes(G4Colour(0.5, 0.0, 0.25)); // Red color
-  // Set visualization attributes for the first collimator
-  thirdCollimatorLogical->SetVisAttributes(cVisAtt);
-  // Set visualization attributes for the fourth collimator
-  fourthCollimatorLogical->SetVisAttributes(cVisAtt);
+//  G4VSolid* thirdcollimatorSolid = new G4Box("ThirdCollimator_Solid", septaX / 2, septaY / 2, septaZ / 2);
+//
+//  //  // Create logical volume for the first collimator
+//
+//  G4LogicalVolume* thirdCollimatorLogical = new G4LogicalVolume(thirdcollimatorSolid, lead, "ThirdCollimator_Logical");
+//  // Position the first collimator
+//  G4ThreeVector thirdCollimatorPosition = G4ThreeVector(6.5 * cm, 0.0, 41.25*cm); // Example position 20 cm in front of the detector
+//  G4Transform3D thirdCollimatorTransform = G4Transform3D(*Rotation, thirdCollimatorPosition);
+//  // Place the first collimator in the detector setup
+//  new G4PVPlacement(thirdCollimatorTransform, thirdCollimatorLogical, "ThirdCollimator_Physical", logicWorld, false, 0);
+//  // Create a second collimator with holes
+//  G4VSolid* fourthCollimatorSolid = collimatorSolid;
+//  // Create logical volume for the fourth collimator
+//  G4LogicalVolume* fourthCollimatorLogical = new G4LogicalVolume(fourthCollimatorSolid, lead, "fourthCollimator_Logical");
+//  // Position the fourth collimator
+//  G4ThreeVector fourthCollimatorPosition = G4ThreeVector(6.5*cm, 0.0, -41.25*cm); // Adjust position for separation
+//  G4Transform3D fourthCollimatorTransform = G4Transform3D(*Rotation, fourthCollimatorPosition);
+//  // Place the fourth collimator in the detector setup
+//  new G4PVPlacement(fourthCollimatorTransform, fourthCollimatorLogical, "fourthCollimator_Physical", logicWorld, false, 1);
+//  // Create red visualization attribute
+//  G4VisAttributes* cVisAtt = new G4VisAttributes(G4Colour(0.5, 0.0, 0.25)); // Red color
+//  // Set visualization attributes for the first collimator
+//  thirdCollimatorLogical->SetVisAttributes(cVisAtt);
+//  // Set visualization attributes for the fourth collimator
+//  fourthCollimatorLogical->SetVisAttributes(cVisAtt);
 
   
 
@@ -540,7 +577,7 @@ G4Box* solidWorld =
 
   fscoringVolume = logicScintillator;
 
-  solidDetector= new G4Box("solidDetector", 5*cm, 6*cm, 1*mm); //prende il doppio della dimensione
+  solidDetector= new G4Box("solidDetector", 1.5*cm, 1.5*cm, 1*mm); //prende il doppio della dimensione
 
   logicDetector= new G4LogicalVolume(solidDetector, man->FindOrBuildMaterial("G4_SODIUM_IODIDE"),"logicDetector");
 
@@ -552,7 +589,7 @@ G4Box* solidWorld =
       //j*22.5*deg rotaaizone
       //G4Translate3D transXscint(G4ThreeVector(-40*cm + i*20*mm,0.*mm,5./tan(1.8/2*deg)*mm + 5.*mm ));
 
-      G4Translate3D transXdet(G4ThreeVector(0*cm,0.*mm,-50*cm));  //prende la metà della dimensione
+      G4Translate3D transXdet(G4ThreeVector(-20*cm,0.*mm,-45*cm));  //prende la metà della dimensione
 
       //-40*cm + i*10*mm Direzione lungo asse x
       //5./tan(22.5/2*deg)*cm + 5.*cm  lungo z
