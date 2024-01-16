@@ -51,6 +51,7 @@ class EventAction : public G4UserEventAction
     virtual void   EndOfEventAction(const G4Event*);
     
     void AddEdep(G4int k, G4double edep) { fEdepAbsor[k] += edep; }
+    void CountIsotope(const G4String& isotopeType);
     
   private:
     DetectorConstruction* fDetector;

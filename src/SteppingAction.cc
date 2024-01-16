@@ -49,6 +49,7 @@
 #include "G4VPhysicalVolume.hh"
 #include "G4LogicalVolume.hh"
 #include "G4RunManager.hh"
+#include "G4Isotope.hh"
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -67,27 +68,27 @@ SteppingAction::~SteppingAction()
 void SteppingAction::UserSteppingAction(const G4Step* step)
 {
 //FADD
-    // Get the particle's name
-    G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
-
-    // Check if the particle is entering the "Tube" volume
-    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
-    if (volume && volume->GetName() == "Tube") {
-        // Retrieve the kinetic energy and position
-        G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
-        G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
-
-        // Save the data to a file named after the particle name
-        std::string fileName = particleName + "_entering_particles.csv";
-        std::ofstream outputFile(fileName, std::ios_base::app);
-        if (outputFile.is_open()) {
-            outputFile << kineticEnergy / MeV << "," << position.x() / mm << ","
-                       << position.y() / mm << "," << position.z() / mm << std::endl;
-            outputFile.close();
-        } else {
-            G4cout << "Unable to open the output file." << G4endl;
-        }
-    }
+//    // Get the particle's name
+//    G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
+//
+//    // Check if the particle is entering the "Tube" volume
+//    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
+//    if (volume && volume->GetName() == "Tube") {
+//        // Retrieve the kinetic energy and position
+//        G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+//        G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
+//
+//        // Save the data to a file named after the particle name
+//        std::string fileName = particleName + "_entering_particles.csv";
+//        std::ofstream outputFile(fileName, std::ios_base::app);
+//        if (outputFile.is_open()) {
+//            outputFile << kineticEnergy / MeV << "," << position.x() / mm << ","
+//                       << position.y() / mm << "," << position.z() / mm << std::endl;
+//            outputFile.close();
+//        } else {
+//            G4cout << "Unable to open the output file." << G4endl;
+//        }
+//    }
 
 
  //G4double edep = step->GetTotalEnergyDeposit();
@@ -152,16 +153,39 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //        }
 //    }
 //FADD track neutroni
-//    if (step->GetTrack()->GetDefinition() == G4Electron::ElectronDefinition()) {
-//        // Check if new neutrons are created in this step
-//        const G4TrackVector* secondary = step->GetSecondary();
-//        for (size_t i = 0; i < secondary->size(); ++i) {
-//            if ((*secondary)[i]->GetDefinition() == G4Neutron::NeutronDefinition()) {
-//                G4double neutronEnergy = (*secondary)[i]->GetKineticEnergy() / CLHEP::MeV;
-//                G4cout << "New Neutron Produced: Energy = " << neutronEnergy << " MeV" << G4endl;
-//            }
-//        }
-//    }
+    if (step->GetTrack()->GetDefinition() == G4Electron::ElectronDefinition()) {
+        // Check if new neutrons are created in this step
+        const G4TrackVector* secondary = step->GetSecondary();
+        for (size_t i = 0; i < secondary->size(); ++i) {
+            if ((*secondary)[i]->GetDefinition() == G4Neutron::NeutronDefinition()) {
+                G4double neutronEnergy = (*secondary)[i]->GetKineticEnergy() / CLHEP::MeV;
+                G4cout << "New Neutron Produced: Energy = " << neutronEnergy << " MeV" << G4endl;
+            }
+        }
+    }
+G4Track* track = step->GetTrack();
+G4String particleName = track->GetDynamicParticle()->GetDefinition()->GetParticleName();
+if (track->GetTrackStatus() == fStopAndKill && track->GetStepLength() > 0.0)
+{
+    const G4VProcess* process = step->GetPostStepPoint()->GetProcessDefinedStep();
+
+    // Access the process name
+    G4String processName = process->GetProcessName();
+
+    // Access the particles produced in the step
+    const std::vector<const G4Track*>* secondaryTracks = step->GetSecondaryInCurrentStep();
+    if (secondaryTracks)
+    {
+        for (size_t i = 0; i < secondaryTracks->size(); ++i)
+        {
+            G4String producedParticleName = (*secondaryTracks)[i]->GetDynamicParticle()->GetDefinition()->GetParticleName();
+
+            // You can now process the produced particle information as needed
+            // Print, store, or analyze the information as required
+            G4cout << "Nuclear Reaction Process: " << processName << ", Produced Particle: " << producedParticleName << G4endl;
+        }
+    }
+}
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

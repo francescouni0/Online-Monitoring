@@ -8,26 +8,24 @@
 /run/verbose 1
 #
 /testem/det/setNbOfAbsor  1
-/testem/det/setAbsor 1 plexiglass  30 mm
+/testem/det/setAbsor 1 plexiglass  300 mm
 /testem/det/setSizeYZ 200 mm
 #
 
 #/globalField/setValue 0. 1. 0. tesla
 
-/testem/phys/addPhysics  local# em physics
-#/testem/phys/emstandard_opt0
-#/testem/phys/addPhysics LBE
 
 # Hadronic physics (for neutron production)
 
-###/testem/phys/addPhysics  empenelope  	# em physics 
+/testem/phys/addPhysics  local  	# em physics 
+/physics_lists/em/GammaNuclear true
 #
 /run/initialize
 
 #
 /testem/gun/setDefault
 /gun/particle e-
-/gun/energy 9 MeV
+/gun/energy 150 MeV
 
 
 #
@@ -40,5 +38,5 @@
 ##
 /testem/applyAutomaticStepMax false
 #
-/run/printProgress 10000
-/run/beamOn 1000000
+/run/printProgress 100
+/run/beamOn 1000

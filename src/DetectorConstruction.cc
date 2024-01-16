@@ -246,25 +246,25 @@ G4Box* solidWorld =
 
   //FADD
   // Create the tube (hollow cylindrical shape) with inner and outer radii and height
-  G4double innerRadius = 250* mm;
-  G4double outerRadius = 262* mm;
-  G4double height = 7 * cm;
-  G4Tubs* solidTube = new G4Tubs("Tube", innerRadius, outerRadius, height , 0.0, 2 * M_PI);
-  G4LogicalVolume* logicTube =
-      new G4LogicalVolume(solidTube,
-                          tubemat, // Air material
-                          "Tube");
-  G4ThreeVector tubePosition = G4ThreeVector(0, 0, 0); // Position of the tube inside the world
-   G4RotationMatrix* rotation = new G4RotationMatrix();
-  rotation->rotateY(90.0 * degree);
-  new G4PVPlacement(rotation,
-                    tubePosition,
-                    logicTube,
-                    "Tube",
-                    logicWorld,
-                    false,
-                    0);
-//
+//  G4double innerRadius = 250* mm;
+//  G4double outerRadius = 262* mm;
+//  G4double height = 7 * cm;
+//  G4Tubs* solidTube = new G4Tubs("Tube", innerRadius, outerRadius, height , 0.0, 2 * M_PI);
+//  G4LogicalVolume* logicTube =
+//      new G4LogicalVolume(solidTube,
+//                          tubemat, // Air material
+//                          "Tube");
+//  G4ThreeVector tubePosition = G4ThreeVector(0, 0, 0); // Position of the tube inside the world
+//   G4RotationMatrix* rotation = new G4RotationMatrix();
+//  rotation->rotateY(90.0 * degree);
+//  new G4PVPlacement(rotation,
+//                    tubePosition,
+//                    logicTube,
+//                    "Tube",
+//                    logicWorld,
+//                    false,
+//                    0);
+////
 //piombino
 //  G4NistManager* nist = G4NistManager::Instance();
 //  G4Material* lead = nist->FindOrBuildMaterial("G4_Pb");
@@ -306,21 +306,21 @@ G4Box* solidWorld =
 //                    logicWorld,
 //                    false,
 //                    0);
-  G4Box* solidBox = new G4Box("Box",1*cm, 1*cm, 0.5*cm);
-  G4NistManager* nist = G4NistManager::Instance();
-  G4Material* lead = nist->FindOrBuildMaterial("G4_Pb");
-  G4LogicalVolume* logicBox =
-      new G4LogicalVolume(solidBox,
-                          lead, // Air material
-                          "Box");
-  G4ThreeVector boxposition= G4ThreeVector(-20*mm, 0, 0);
-  new G4PVPlacement(rotation,
-                    boxposition,
-                    logicBox,
-                    "Box",
-                    logicWorld,
-                    false,
-                    0);
+//  G4Box* solidBox = new G4Box("Box",1*cm, 1*cm, 0.5*cm);
+//  G4NistManager* nist = G4NistManager::Instance();
+//  G4Material* lead = nist->FindOrBuildMaterial("G4_Pb");
+//  G4LogicalVolume* logicBox =
+//      new G4LogicalVolume(solidBox,
+//                          lead, // Air material
+//                          "Box");
+//  G4ThreeVector boxposition= G4ThreeVector(-20*mm, 0, 0);
+//  new G4PVPlacement(rotation,
+//                    boxposition,
+//                    logicBox,
+//                    "Box",
+//                    logicWorld,
+//                    false,
+//                    0);
    // Set visual attributes for visualization
 
 //Cono

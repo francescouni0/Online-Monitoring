@@ -77,6 +77,7 @@ int main(int argc,char** argv) {
   DetectorConstruction* det = new DetectorConstruction;
   runManager->SetUserInitialization(det);
 
+   //FADD
   PhysicsList* phys = new PhysicsList;
   runManager->SetUserInitialization(phys);
 

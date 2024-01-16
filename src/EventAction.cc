@@ -38,6 +38,15 @@
 #include "G4Event.hh"
 #include "G4EventManager.hh"
 #include "G4RunManager.hh"
+#include "G4PrimaryVertex.hh"
+#include "G4PrimaryParticle.hh"
+#include "G4ParticleDefinition.hh"
+#include "G4Track.hh"
+#include "G4SystemOfUnits.hh"
+#include "G4SDManager.hh"
+
+#include "G4TrackingManager.hh"
+#include "G4VProcess.hh"
 
 
 
@@ -71,7 +80,6 @@ void EventAction::EndOfEventAction(const G4Event* event )
   Run* run = static_cast<Run*>(
              G4RunManager::GetRunManager()->GetNonConstCurrentRun());
   
-  
   //plot energy deposited per event
   //
   G4double TotalEdep(0.);
@@ -87,8 +95,10 @@ void EventAction::EndOfEventAction(const G4Event* event )
     run->AddTotEdep(TotalEdep);  
     //G4AnalysisManager::Instance()->FillH1(2,TotalEdep);
   }
-    
- 
+  
+  //FADD
+
 }
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

@@ -94,7 +94,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
   // EM physics
   fEmPhysicsList = new PhysListEmStandard(fEmName = "local");
   //FADD
-  fHadronicPhysicsList = new QGSP_BERT(0);
+  fHadronicPhysicsList = new QGSP_BIC_HP(0);
   
   
 
@@ -151,7 +151,7 @@ void PhysicsList::ConstructProcess()
 
   //FADD
     // Hadronic physics list (QGSP_BERT)
-  //fHadronicPhysicsList->ConstructProcess();
+  fHadronicPhysicsList->ConstructProcess();
   
   // Em options
   //
@@ -188,7 +188,7 @@ void PhysicsList::AddPhysicsList(const G4String& name)
     //delete fHadronicPhysicsList;
     //fEmPhysicsList = new PhysListEmStandard(name);
     //fEmPhysicsList = new LBE();
-    fHadronicPhysicsList = new QGSP_BERT();
+    fHadronicPhysicsList = new QGSP_BIC_HP();
 
   } else if (name == "emstandard_opt0") {
     fEmName = name;

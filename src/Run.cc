@@ -52,7 +52,7 @@ Run::Run(DetectorConstruction* detector)
   fTrackLen(0.),  fTrackLen2(0.),
   fProjRange(0.), fProjRange2(0.),
   fNbOfSteps(0), fNbOfSteps2(0),
-  fStepSize(0.),  fStepSize2(0.)
+  fStepSize(0.),  fStepSize2(0.),fTotalIsotopeCount(0)
 {
   //for (G4int i=0; i<3; ++i) { fStatus[i] = 0; fTotEdep[i] = 0.; }
   //fTotEdep[1] = joule;
@@ -344,5 +344,8 @@ void Run::EndOfRun()
 //  G4cout.setf(mode,std::ios::floatfield);
 //  G4cout.precision(prec);
 }
+
+
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

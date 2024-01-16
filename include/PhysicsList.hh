@@ -42,7 +42,7 @@
 #include "globals.hh"
 
 //FADD
-#include "QGSP_BERT.hh"
+#include "QGSP_BIC_HP.hh"
 
 
 class StepMax;
@@ -72,7 +72,7 @@ class PhysicsList: public G4VModularPhysicsList
     static G4ThreadLocal StepMax* fStepMaxProcess;
 
     PhysicsListMessenger*  fMessenger;
-    QGSP_BERT* fHadronicPhysicsList;
+    QGSP_BIC_HP* fHadronicPhysicsList;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

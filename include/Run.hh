@@ -62,6 +62,7 @@ class Run : public G4Run
     
     void SetCsdaRange (G4int i, G4double value);
     void SetXfrontNorm(G4int i, G4double value);
+    
                                       
     G4double GetCsdaRange (G4int i);
     G4double GetXfrontNorm(G4int i);   
@@ -69,6 +70,16 @@ class Run : public G4Run
             
     virtual void Merge(const G4Run*);
     void EndOfRun();
+    //FADD
+        // Function to get the total number of isotopes
+    G4int GetTotalIsotopeCount() const;
+    const std::map<G4String, G4int>& GetIsotopeTypeCount() const;
+
+
+    // Function to record the isotope type
+    void RecordIsotopeType(const G4String& isotopeType);
+    void PrintIsotopeNames() const;
+    std::vector<G4String> GetIsotopeNames() const;
     
   private:
     DetectorConstruction*  fDetector;
@@ -85,7 +96,11 @@ class Run : public G4Run
     G4double   fEmin[kMaxAbsor], fEmax[kMaxAbsor];
     G4double   fTotEdep[3];
     G4double   fCsdaRange[kMaxAbsor];
-    G4double   fXfrontNorm[kMaxAbsor];    
+    G4double   fXfrontNorm[kMaxAbsor];  
+    //FADD
+  G4int fTotalIsotopeCount;
+    std::map<G4String, G4int> fIsotopeTypeCount;
+  
 
 };
 

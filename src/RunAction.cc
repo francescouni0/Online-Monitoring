@@ -48,6 +48,7 @@
 
 //FADD
 #include "G4AnalysisManager.hh"
+#include "G4RunManager.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -183,7 +184,6 @@ void RunAction::EndOfRunAction(const G4Run*)
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
     analysisManager->Write();
     analysisManager->CloseFile();
-
 
 
 
