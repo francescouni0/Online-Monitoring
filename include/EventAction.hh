@@ -37,7 +37,11 @@
 #include "globals.hh"
 #include "DetectorConstruction.hh"
 #include "RunAction.hh"
+#include "SteppingAction.hh"
+#include "G4UserEventAction.hh"
+#include "G4ThreeVector.hh"
 
+#include <vector>
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class EventAction : public G4UserEventAction
@@ -52,11 +56,15 @@ class EventAction : public G4UserEventAction
     
     void AddEdep(G4int k, G4double edep) { fEdepAbsor[k] += edep; }
     void CountIsotope(const G4String& isotopeType);
+    std::vector<G4ThreeVector>& GetC11Positions();
+        
     
   private:
     DetectorConstruction* fDetector;
 
     G4double  fEdepAbsor[kMaxAbsor];
+        SteppingAction* steppingActionPtr;
+        std::vector<G4ThreeVector> c11Positions;
 
 };
 

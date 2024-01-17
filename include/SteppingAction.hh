@@ -34,6 +34,8 @@
 #define SteppingAction_h 1
 
 #include "G4UserSteppingAction.hh"
+#include <vector>
+#include "G4ThreeVector.hh"
 
 class DetectorConstruction;
 class RunAction;
@@ -52,6 +54,7 @@ class SteppingAction : public G4UserSteppingAction
   private:
     DetectorConstruction* fDetector;
     EventAction*          fEventAction;
+    std::vector<G4ThreeVector> c11Positions;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

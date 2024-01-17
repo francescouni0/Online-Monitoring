@@ -51,11 +51,13 @@
 #include "G4RunManager.hh"
 #include "G4Isotope.hh"
 
+     size_t c11Counter = 0;  
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SteppingAction::SteppingAction(DetectorConstruction* det, EventAction* event)
-:G4UserSteppingAction(),fDetector(det), fEventAction(event)
+:G4UserSteppingAction(),fDetector(det), fEventAction(event),c11Positions(event->GetC11Positions())
 { }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -163,29 +165,64 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
             }
         }
     }
+
 G4Track* track = step->GetTrack();
 G4String particleName = track->GetDynamicParticle()->GetDefinition()->GetParticleName();
-if (track->GetTrackStatus() == fStopAndKill && track->GetStepLength() > 0.0)
+// Check if the particle is a gamma photon
+if (particleName == "gamma")
 {
     const G4VProcess* process = step->GetPostStepPoint()->GetProcessDefinedStep();
 
-    // Access the process name
-    G4String processName = process->GetProcessName();
-
-    // Access the particles produced in the step
-    const std::vector<const G4Track*>* secondaryTracks = step->GetSecondaryInCurrentStep();
-    if (secondaryTracks)
+    // Check if the process is the photonuclear process
+    if (process->GetProcessName() == "photonNuclear")
     {
-        for (size_t i = 0; i < secondaryTracks->size(); ++i)
+        // Access the particles produced in the step
+        const std::vector<const G4Track*>* secondaryTracks = step->GetSecondaryInCurrentStep();
+        if (secondaryTracks)
         {
-            G4String producedParticleName = (*secondaryTracks)[i]->GetDynamicParticle()->GetDefinition()->GetParticleName();
+            for (size_t i = 0; i < secondaryTracks->size(); ++i)
+            {
+                G4String producedParticleName = (*secondaryTracks)[i]->GetDynamicParticle()->GetDefinition()->GetParticleName();
 
-            // You can now process the produced particle information as needed
-            // Print, store, or analyze the information as required
-            G4cout << "Nuclear Reaction Process: " << processName << ", Produced Particle: " << producedParticleName << G4endl;
+                // Check if the produced particle is C11
+                if (producedParticleName == "C11")
+                {
+                    // Increment the counter for C11
+                    c11Counter++;
+
+                    // Store the position of the C11 particle
+                    G4ThreeVector c11Position = (*secondaryTracks)[i]->GetPosition();
+                    c11Positions.push_back(c11Position);
+
+                    // You can now process the produced particle information as needed
+                    // Print, store, or analyze the information as required
+                    G4cout << "Photonuclear Process, Produced Particle: " << producedParticleName << G4endl;
+                }
+            }
         }
     }
 }
+
+//std::ofstream outputFile("C11_positions.csv"); // Open the file for writing
+
+//if (outputFile.is_open()) {
+//    // Write the header if the file is just created
+//    outputFile << "X,Y,Z\n";
+//
+//    // Loop through the stored C11 positions and write them to the file
+//    for (size_t i = 0; i < c11Positions.size(); ++i) {
+//        G4ThreeVector c11Position = c11Positions[i];
+//        outputFile << c11Position.x() << "," << c11Position.y() << "," << c11Position.z() << "\n";
+//    }
+//
+//    // Close the file after writing
+//    outputFile.close();
+//} else {
+//    // Handle the case where the file could not be opened
+//    G4cout << "Error: Unable to open the file for writing." << G4endl;
+//}
+
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
