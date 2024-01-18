@@ -57,7 +57,7 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 SteppingAction::SteppingAction(DetectorConstruction* det, EventAction* event)
-:G4UserSteppingAction(),fDetector(det), fEventAction(event),c11Positions(event->GetC11Positions())
+:G4UserSteppingAction(),fDetector(det), fEventAction(event)
 { }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -185,7 +185,7 @@ if (particleName == "gamma")
                 G4String producedParticleName = (*secondaryTracks)[i]->GetDynamicParticle()->GetDefinition()->GetParticleName();
 
                 // Check if the produced particle is C11
-                if (producedParticleName == "C11")
+                if (producedParticleName == "C13")
                 {
                     // Increment the counter for C11
                     c11Counter++;
@@ -197,6 +197,7 @@ if (particleName == "gamma")
                     // You can now process the produced particle information as needed
                     // Print, store, or analyze the information as required
                     G4cout << "Photonuclear Process, Produced Particle: " << producedParticleName << G4endl;
+                    G4cout << "Count: " << c11Counter << G4endl;
                 }
             }
         }
@@ -204,7 +205,7 @@ if (particleName == "gamma")
 }
 
 //std::ofstream outputFile("C11_positions.csv"); // Open the file for writing
-
+//
 //if (outputFile.is_open()) {
 //    // Write the header if the file is just created
 //    outputFile << "X,Y,Z\n";
