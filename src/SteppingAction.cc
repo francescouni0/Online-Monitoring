@@ -155,54 +155,54 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //        }
 //    }
 //FADD track neutroni
-    if (step->GetTrack()->GetDefinition() == G4Electron::ElectronDefinition()) {
-        // Check if new neutrons are created in this step
-        const G4TrackVector* secondary = step->GetSecondary();
-        for (size_t i = 0; i < secondary->size(); ++i) {
-            if ((*secondary)[i]->GetDefinition() == G4Neutron::NeutronDefinition()) {
-                G4double neutronEnergy = (*secondary)[i]->GetKineticEnergy() / CLHEP::MeV;
-                G4cout << "New Neutron Produced: Energy = " << neutronEnergy << " MeV" << G4endl;
-            }
-        }
-    }
-
-G4Track* track = step->GetTrack();
-G4String particleName = track->GetDynamicParticle()->GetDefinition()->GetParticleName();
-// Check if the particle is a gamma photon
-if (particleName == "gamma")
-{
-    const G4VProcess* process = step->GetPostStepPoint()->GetProcessDefinedStep();
-
-    // Check if the process is the photonuclear process
-    if (process->GetProcessName() == "photonNuclear")
-    {
-        // Access the particles produced in the step
-        const std::vector<const G4Track*>* secondaryTracks = step->GetSecondaryInCurrentStep();
-        if (secondaryTracks)
-        {
-            for (size_t i = 0; i < secondaryTracks->size(); ++i)
-            {
-                G4String producedParticleName = (*secondaryTracks)[i]->GetDynamicParticle()->GetDefinition()->GetParticleName();
-
-                // Check if the produced particle is C11
-                if (producedParticleName == "C13")
-                {
-                    // Increment the counter for C11
-                    c11Counter++;
-
-                    // Store the position of the C11 particle
-                    G4ThreeVector c11Position = (*secondaryTracks)[i]->GetPosition();
-                    c11Positions.push_back(c11Position);
-
-                    // You can now process the produced particle information as needed
-                    // Print, store, or analyze the information as required
-                    G4cout << "Photonuclear Process, Produced Particle: " << producedParticleName << G4endl;
-                    G4cout << "Count: " << c11Counter << G4endl;
-                }
-            }
-        }
-    }
-}
+//    if (step->GetTrack()->GetDefinition() == G4Electron::ElectronDefinition()) {
+//        // Check if new neutrons are created in this step
+//        const G4TrackVector* secondary = step->GetSecondary();
+//        for (size_t i = 0; i < secondary->size(); ++i) {
+//            if ((*secondary)[i]->GetDefinition() == G4Neutron::NeutronDefinition()) {
+//                G4double neutronEnergy = (*secondary)[i]->GetKineticEnergy() / CLHEP::MeV;
+//                G4cout << "New Neutron Produced: Energy = " << neutronEnergy << " MeV" << G4endl;
+//            }
+//        }
+//    }
+//rilevazione isotopi
+//G4Track* track = step->GetTrack();
+//G4String particleName = track->GetDynamicParticle()->GetDefinition()->GetParticleName();
+//// Check if the particle is a gamma photon
+//if (particleName == "gamma")
+//{
+//    const G4VProcess* process = step->GetPostStepPoint()->GetProcessDefinedStep();
+//
+//    // Check if the process is the photonuclear process
+//    if (process->GetProcessName() == "photonNuclear")
+//    {
+//        // Access the particles produced in the step
+//        const std::vector<const G4Track*>* secondaryTracks = step->GetSecondaryInCurrentStep();
+//        if (secondaryTracks)
+//        {
+//            for (size_t i = 0; i < secondaryTracks->size(); ++i)
+//            {
+//                G4String producedParticleName = (*secondaryTracks)[i]->GetDynamicParticle()->GetDefinition()->GetParticleName();
+//
+//                // Check if the produced particle is C11
+//                if (producedParticleName == "C13")
+//                {
+//                    // Increment the counter for C11
+//                    c11Counter++;
+//
+//                    // Store the position of the C11 particle
+//                    G4ThreeVector c11Position = (*secondaryTracks)[i]->GetPosition();
+//                    c11Positions.push_back(c11Position);
+//
+//                    // You can now process the produced particle information as needed
+//                    // Print, store, or analyze the information as required
+//                    G4cout << "Photonuclear Process, Produced Particle: " << producedParticleName << G4endl;
+//                    G4cout << "Count: " << c11Counter << G4endl;
+//                }
+//            }
+//        }
+//    }
+//}
 
 //std::ofstream outputFile("C11_positions.csv"); // Open the file for writing
 //

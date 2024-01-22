@@ -97,7 +97,7 @@ RunAction::~RunAction()
 void RunAction::BeginOfRunAction(const G4Run*)
 {
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    analysisManager->SetNtupleMerging(true);
+    //analysisManager->SetNtupleMerging(true);
     analysisManager->SetFileName("Hits.root"); // Set the output file name
     analysisManager->OpenFile();
 

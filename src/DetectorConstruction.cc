@@ -583,13 +583,14 @@ G4Box* solidWorld =
 
   for(G4int i=0;i<1;i++)
   {
-    for(G4int j=0;j<2;j++)
+    for(G4int j=0;j<1;j++)
     {
-      G4Rotate3D rotZ(j*180*deg, G4ThreeVector(1,0,0));
+      G4Rotate3D rotZ(90*deg, G4ThreeVector(0,1,0));
+      //j*180*deg
       //j*22.5*deg rotaaizone
       //G4Translate3D transXscint(G4ThreeVector(-40*cm + i*20*mm,0.*mm,5./tan(1.8/2*deg)*mm + 5.*mm ));
 
-      G4Translate3D transXdet(G4ThreeVector(-20*cm,0.*mm,-45*cm));  //prende la metà della dimensione
+      G4Translate3D transXdet(G4ThreeVector(0*cm,0*cm,30*cm));  //prende la metà della dimensione -45
 
       //-40*cm + i*10*mm Direzione lungo asse x
       //5./tan(22.5/2*deg)*cm + 5.*cm  lungo z
