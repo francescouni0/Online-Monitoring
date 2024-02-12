@@ -86,7 +86,7 @@ G4bool SensitiveDetector::IsGeneratedInScoringVolume(G4Step* aStep) {
     // Check if the creation point is within the detector volume
     bool isInDetectorVolume =
         (creationPoint.x() >= -300 * cm) && (creationPoint.x() <=300 * cm) &&  // Half-length in x direction
-        (creationPoint.y() >= -15 * cm) && (creationPoint.y() <= 15 * cm) &&  // Half-length in y direction
-        (creationPoint.z() >= -15 * cm) && (creationPoint.z() <= 15 * cm);    // Half-length in z direction    
+        (creationPoint.y() >= -20 * cm) && (creationPoint.y() <= 20 * cm) &&  // Half-length in y direction
+        (creationPoint.z() >= -20 * cm) && (creationPoint.z() <= 20 * cm);    // Half-length in z direction    
     return isInDetectorVolume;
 }
