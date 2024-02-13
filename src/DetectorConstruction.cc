@@ -164,6 +164,11 @@ void DetectorConstruction::DefineMaterials()
   // Assign the material properties table to Plexiglas
   plexiglass->SetMaterialPropertiesTable(plexiglasMPT);
 
+////
+
+  
+  // Assign the material properties table to Plexiglas
+
   G4Material* NaI = //Fadd
   new G4Material("NaI", 3.67 * g/cm3, 2);
   NaI->AddElement(Na, 1);
@@ -191,7 +196,6 @@ void DetectorConstruction::DefineMaterials()
                              kStateGas,temperature,pressure);
                              
   fDefaultMaterial = Galactic;
-  tubemat=man->FindOrBuildMaterial("G4_Al");
   
   //  G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 }
@@ -245,25 +249,28 @@ G4Box* solidWorld =
                        0);                      //copy number
 
   //FADD
+  G4NistManager* nist = G4NistManager::Instance();
+  G4Material* plastic=nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE"); 
+
+  
+  ///////////////////7
+  G4Rotate3D rotZscatt(180*deg, G4ThreeVector(0,1,0));
+  
+  G4Translate3D transXscatt(G4ThreeVector(-13*cm ,0*cm,-20*cm));  //prende la metà della dimensione -4
+  G4Transform3D transforscatt=(rotZscatt)*(transXscatt);
+
   // Create the tube (hollow cylindrical shape) with inner and outer radii and height
-//  G4double innerRadius = 250* mm;
-//  G4double outerRadius = 262* mm;
-//  G4double height = 7 * cm;
-//  G4Tubs* solidTube = new G4Tubs("Tube", innerRadius, outerRadius, height , 0.0, 2 * M_PI);
-//  G4LogicalVolume* logicTube =
-//      new G4LogicalVolume(solidTube,
-//                          tubemat, // Air material
-//                          "Tube");
-//  G4ThreeVector tubePosition = G4ThreeVector(0, 0, 0); // Position of the tube inside the world
-//   G4RotationMatrix* rotation = new G4RotationMatrix();
-//  rotation->rotateY(90.0 * degree);
-//  new G4PVPlacement(rotation,
-//                    tubePosition,
-//                    logicTube,
-//                    "Tube",
-//                    logicWorld,
-//                    false,
-//                    0);
+  G4Box* solidScatterer= new G4Box("Scatterer", 1.5*cm, 1.5*cm, 1*cm);
+  G4LogicalVolume* logicScatt =
+      new G4LogicalVolume(solidScatterer,
+                          plastic, // Air material
+                          "Scatterer");
+  new G4PVPlacement(transforscatt,
+                    logicScatt,
+                    "Scatterer",
+                    logicWorld,
+                    false,
+                    0);
 ////
 //piombino
 //  G4NistManager* nist = G4NistManager::Instance();
@@ -452,7 +459,6 @@ G4Box* solidWorld =
   G4double septaY = 67.5 * cm;
   G4double septaZ = 20 * cm;
 
-  G4NistManager* nist = G4NistManager::Instance();
   G4Material* lead = nist->FindOrBuildMaterial("G4_Pb");
   G4VSolid* collimatorSolid = new G4Box("Collimator_Solid", septaX / 2, septaY / 2, septaZ / 2);
 
@@ -460,7 +466,7 @@ G4Box* solidWorld =
 
   G4LogicalVolume* firstCollimatorLogical = new G4LogicalVolume(collimatorSolid, lead, "FirstCollimator_Logical");
   // Position the first collimator
-  G4ThreeVector firstCollimatorPosition = G4ThreeVector(-3 * cm, 0.0, 44*cm); // Example position 20 cm in front of the detector
+  G4ThreeVector firstCollimatorPosition = G4ThreeVector(10 * cm, 0.0, 44*cm); // Example position 20 cm in front of the detector
   G4RotationMatrix* Rotation = new G4RotationMatrix();
   Rotation->rotateX(90.0 * deg);
   G4Transform3D firstCollimatorTransform = G4Transform3D(*Rotation, firstCollimatorPosition);
@@ -471,7 +477,7 @@ G4Box* solidWorld =
   // Create logical volume for the second collimator
   G4LogicalVolume* secondCollimatorLogical = new G4LogicalVolume(secondCollimatorSolid, lead, "SecondCollimator_Logical");
   // Position the second collimator
-  G4ThreeVector secondCollimatorPosition = G4ThreeVector(-3*cm, 0.0, -44*cm); // Adjust position for separation
+  G4ThreeVector secondCollimatorPosition = G4ThreeVector(10*cm, 0.0, -44*cm); // Adjust position for separation
   G4Transform3D secondCollimatorTransform = G4Transform3D(*Rotation, secondCollimatorPosition);
   // Place the second collimator in the detector setup
   new G4PVPlacement(secondCollimatorTransform, secondCollimatorLogical, "SecondCollimator_Physical", logicWorld, false, 1);
@@ -493,7 +499,7 @@ G4Box* solidWorld =
 
   G4LogicalVolume* thirdCollimatorLogical = new G4LogicalVolume(thirdcollimatorSolid, lead, "ThirdCollimator_Logical");
   // Position the first collimator
-  G4ThreeVector thirdCollimatorPosition = G4ThreeVector(3 * cm, 0.0, 44*cm); // Example position 20 cm in front of the detector
+  G4ThreeVector thirdCollimatorPosition = G4ThreeVector(16 * cm, 0.0, 44*cm); // Example position 20 cm in front of the detector
   G4Transform3D thirdCollimatorTransform = G4Transform3D(*Rotation, thirdCollimatorPosition);
   // Place the first collimator in the detector setup
   new G4PVPlacement(thirdCollimatorTransform, thirdCollimatorLogical, "ThirdCollimator_Physical", logicWorld, false, 0);
@@ -502,7 +508,7 @@ G4Box* solidWorld =
   // Create logical volume for the fourth collimator
   G4LogicalVolume* fourthCollimatorLogical = new G4LogicalVolume(fourthCollimatorSolid, lead, "fourthCollimator_Logical");
   // Position the fourth collimator
-  G4ThreeVector fourthCollimatorPosition = G4ThreeVector(3*cm, 0.0, -44*cm); // Adjust position for separation
+  G4ThreeVector fourthCollimatorPosition = G4ThreeVector(16*cm, 0.0, -44*cm); // Adjust position for separation
   G4Transform3D fourthCollimatorTransform = G4Transform3D(*Rotation, fourthCollimatorPosition);
   // Place the fourth collimator in the detector setup
   new G4PVPlacement(fourthCollimatorTransform, fourthCollimatorLogical, "fourthCollimator_Physical", logicWorld, false, 1);
@@ -583,14 +589,17 @@ G4Box* solidWorld =
 
   for(G4int i=0;i<1;i++)
   {
-    for(G4int j=0;j<2;j++)
+    for(G4int j=0;j<1;j++)
     {
-      G4Rotate3D rotZ(j*180*deg, G4ThreeVector(1,0,0));
+      G4Rotate3D rotZ(j*180*deg, G4ThreeVector(0,1,0));
+      //fondo
+      //G4Rotate3D rotZ(90*deg, G4ThreeVector(0,1,0));
+
       //j*180*deg
       //j*22.5*deg rotaaizone
       //G4Translate3D transXscint(G4ThreeVector(-40*cm + i*20*mm,0.*mm,5./tan(1.8/2*deg)*mm + 5.*mm ));
 
-      G4Translate3D transXdet(G4ThreeVector(0*cm ,0*cm,30*cm));  //prende la metà della dimensione -45
+      G4Translate3D transXdet(G4ThreeVector(13*cm ,0*cm,30*cm));  //prende la metà della dimensione -45
 
       //-40*cm + i*10*mm Direzione lungo asse x
       //5./tan(22.5/2*deg)*cm + 5.*cm  lungo z
