@@ -50,9 +50,9 @@ G4bool SensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory* /*ROhis
    
        G4ThreeVector localPos = physicalVolume->GetTranslation();
    
-       G4double x = localPos.x();
-       G4double y = localPos.y();
-       G4double z = localPos.z();
+       G4double x = pos.x();
+       G4double y = pos.y();
+       G4double z = pos.z();
        G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
 
        G4int parentID = track->GetParentID();
