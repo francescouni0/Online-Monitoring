@@ -248,29 +248,29 @@ G4Box* solidWorld =
                        false,                   //no boolean operation
                        0);                      //copy number
 
-  //FADD
-  G4NistManager* nist = G4NistManager::Instance();
-  G4Material* plastic=nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE"); 
-
-  
-  ///////////////////7
-  G4Rotate3D rotZscatt(180*deg, G4ThreeVector(0,1,0));
-  
-  G4Translate3D transXscatt(G4ThreeVector(0*cm ,0*cm,-20*cm));  //prende la metà della dimensione -4
-  G4Transform3D transforscatt=(rotZscatt)*(transXscatt);
-
-  // Create the tube (hollow cylindrical shape) with inner and outer radii and height
-  G4Box* solidScatterer= new G4Box("Scatterer", 15*cm, 10*cm, 1*cm);
-  G4LogicalVolume* logicScatt =
-      new G4LogicalVolume(solidScatterer,
-                          plastic, // Air material
-                          "Scatterer");
-  new G4PVPlacement(transforscatt,
-                    logicScatt,
-                    "Scatterer",
-                    logicWorld,
-                    false,
-                    0);
+  //FADD Compton
+//  G4NistManager* nist = G4NistManager::Instance();
+//  G4Material* plastic=nist->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE"); 
+//
+//  
+//  ///////////////////7
+//  G4Rotate3D rotZscatt(180*deg, G4ThreeVector(0,1,0));
+//  
+//  G4Translate3D transXscatt(G4ThreeVector(0*cm ,0*cm,-20*cm));  //prende la metà della dimensione -4
+//  G4Transform3D transforscatt=(rotZscatt)*(transXscatt);
+//
+//  // Create the tube (hollow cylindrical shape) with inner and outer radii and height
+//  G4Box* solidScatterer= new G4Box("Scatterer", 15*cm, 10*cm, 1*cm);
+//  G4LogicalVolume* logicScatt =
+//      new G4LogicalVolume(solidScatterer,
+//                          plastic, // Air material
+//                          "Scatterer");
+//  new G4PVPlacement(transforscatt,
+//                    logicScatt,
+//                    "Scatterer",
+//                    logicWorld,
+//                    false,
+//                    0);
 ////
 //piombino
 //  G4NistManager* nist = G4NistManager::Instance();
@@ -589,7 +589,7 @@ G4Box* solidWorld =
 
   for(G4int i=0;i<1;i++)
   {
-    for(G4int j=0;j<1;j++)
+    for(G4int j=0;j<2;j++)
     {
       G4Rotate3D rotZ(j*180*deg, G4ThreeVector(0,1,0));
       //fondo
