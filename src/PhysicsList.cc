@@ -94,7 +94,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
   // EM physics
   fEmPhysicsList = new PhysListEmStandard(fEmName = "local");
   //FADD
-  //fHadronicPhysicsList = new QGSP_BIC_HP(0); //da commentadre e scommentare
+  fHadronicPhysicsList = new QGSP_BIC_HP(0); //da commentadre e scommentare
   
   
 
@@ -151,7 +151,7 @@ void PhysicsList::ConstructProcess()
 
   //FADD
     // Hadronic physics list (QGSP_BERT) da commentare e scommentare
-  //fHadronicPhysicsList->ConstructProcess();
+  fHadronicPhysicsList->ConstructProcess();
   
   // Em options
   //

@@ -538,7 +538,8 @@ G4Box* solidWorld =
     G4LogicalVolume* logicAbsor =
       new G4LogicalVolume(solidAbsor,           // solid
                           material,             // material
-                          matname);             // name
+                          matname,
+                          );             // name
                                      
     fXfront[k] = fXfront[k-1] + fAbsorThickness[k-1];    
     G4double xcenter = fXfront[k]+0.5*fAbsorThickness[k];

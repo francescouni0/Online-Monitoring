@@ -53,6 +53,7 @@
 #include "G4RunManager.hh"
 
 
+
      size_t c11Counter = 0;  
 
 
@@ -71,34 +72,77 @@ SteppingAction::~SteppingAction()
 
 void SteppingAction::UserSteppingAction(const G4Step* step)
 {
-//FADD
+////FADD
+//    // Get the particle's name
+//    G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
+//
+//    // Check if the particle is entering the "Tube" volume
+//    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
+//    if (volume && volume->GetName() == "Scatterer") {
+//        // Retrieve the kinetic energy and position
+//        G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+//        G4double energyDeposited = step->GetTotalEnergyDeposit();
+//        G4double kineticEnergyexit = step->GetPostStepPoint()->GetKineticEnergy();
+//        G4double Dep=kineticEnergy-kineticEnergyexit;
+//        G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
+//        G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+//
+//
+//        // Save the data to a file named after the particle name
+//        std::string fileName = particleName + "_entering_particles.csv";
+//        std::ofstream outputFile(fileName, std::ios_base::app);
+//        if (outputFile.is_open()) {
+//            outputFile << Dep / keV << "," << position.x() / mm << ","
+//                       << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
+//            outputFile.close();
+//        } else {
+//            G4cout << "Unable to open the output file." << G4endl;
+//        }
+//    }
+
     // Get the particle's name
     G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
 
+if (particleName == "C11")
+{
     // Check if the particle is entering the "Tube" volume
     G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
-    if (volume && volume->GetName() == "Scatterer") {
-        // Retrieve the kinetic energy and position
-        G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
-        G4double energyDeposited = step->GetTotalEnergyDeposit();
-        G4double kineticEnergyexit = step->GetPostStepPoint()->GetKineticEnergy();
-        G4double Dep=kineticEnergy-kineticEnergyexit;
-        G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
-        G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-
-
-        // Save the data to a file named after the particle name
-        std::string fileName = particleName + "_entering_particles.csv";
-        std::ofstream outputFile(fileName, std::ios_base::app);
-        if (outputFile.is_open()) {
-            outputFile << Dep / keV << "," << position.x() / mm << ","
-                       << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
-            outputFile.close();
-        } else {
-            G4cout << "Unable to open the output file." << G4endl;
-        }
+    // Retrieve the kinetic energy and position
+    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
+    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+    // Save the data to a file named after the particle name
+    std::string fileName = particleName + "_entering_particles.csv";
+    std::ofstream outputFile(fileName, std::ios_base::app);
+    if (outputFile.is_open()) {
+        outputFile << kineticEnergy / keV << "," << position.x() / mm << ","
+                   << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
+        outputFile.close();
+    } else {
+        G4cout << "Unable to open the output file." << G4endl;
     }
-
+    
+}
+if (particleName == "O15")
+{
+    // Check if the particle is entering the "Tube" volume
+    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
+    // Retrieve the kinetic energy and position
+    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
+    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+    // Save the data to a file named after the particle name
+    std::string fileName = particleName + "_entering_particles.csv";
+    std::ofstream outputFile(fileName, std::ios_base::app);
+    if (outputFile.is_open()) {
+        outputFile << kineticEnergy / keV << "," << position.x() / mm << ","
+                   << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
+        outputFile.close();
+    } else {
+        G4cout << "Unable to open the output file." << G4endl;
+    }
+    
+}
 
  //G4double edep = step->GetTotalEnergyDeposit();
  //if (edep <= 0.) return;
@@ -181,8 +225,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //    const G4VProcess* process = step->GetPostStepPoint()->GetProcessDefinedStep();
 //
 //    // Check if the process is the photonuclear process
-//    if (process->GetProcessName() == "photonNuclear")
-//    {
+//
 //        // Access the particles produced in the step
 //        const std::vector<const G4Track*>* secondaryTracks = step->GetSecondaryInCurrentStep();
 //        if (secondaryTracks)
@@ -192,7 +235,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //                G4String producedParticleName = (*secondaryTracks)[i]->GetDynamicParticle()->GetDefinition()->GetParticleName();
 //
 //                // Check if the produced particle is C11
-//                if (producedParticleName == "C13")
+//                if (producedParticleName == "C11")
 //                {
 //                    // Increment the counter for C11
 //                    c11Counter++;
@@ -203,12 +246,12 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 //
 //                    // You can now process the produced particle information as needed
 //                    // Print, store, or analyze the information as required
-//                    G4cout << "Photonuclear Process, Produced Particle: " << producedParticleName << G4endl;
+//                    G4cout << "Produced Particle: " << producedParticleName << G4endl;
 //                    G4cout << "Count: " << c11Counter << G4endl;
 //                }
 //            }
 //        }
-//    }
+//    
 //}
 
 //std::ofstream outputFile("C11_positions.csv"); // Open the file for writing

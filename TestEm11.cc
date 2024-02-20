@@ -56,9 +56,14 @@ int main(int argc,char** argv) {
   G4UIExecutive* ui = nullptr;
   if (argc == 1) ui = new G4UIExecutive(argc,argv);
 
-  //choose the Random engine
-  G4Random::setTheEngine(new CLHEP::RanecuEngine);
- 
+  //choose the Random engine FADD randomicity
+  CLHEP::RanecuEngine* theEngine = new CLHEP::RanecuEngine;
+  
+  // Set the seed to a specific value (e.g., 42)
+  G4int seed = 69;
+  theEngine->setSeed(seed);
+  
+  G4Random::setTheEngine(theEngine); 
   //Use SteppingVerbose with Unit
   G4int precision = 4;
   

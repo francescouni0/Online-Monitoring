@@ -18,14 +18,14 @@
 # Hadronic physics (for neutron production)
 
 /testem/phys/addPhysics  local  	# em physics 
-#/physics_lists/em/GammaNuclear true
+/physics_lists/em/GammaNuclear true
 #
 /run/initialize
 
 #
 /testem/gun/setDefault
 /gun/particle e-
-/gun/energy 200 MeV
+/gun/energy 150 MeV
 
 
 #
@@ -38,5 +38,5 @@
 ##
 /testem/applyAutomaticStepMax false
 #
-/run/printProgress 1000
+/run/printProgress 10000
 /run/beamOn 100000
