@@ -8,8 +8,8 @@
 /run/verbose 1
 #
 /testem/det/setNbOfAbsor  1
-/testem/det/setAbsor 1 plexiglass  120 mm
-/testem/det/setSizeYZ 200 mm
+/testem/det/setAbsor 1 plexiglass  600 mm
+/testem/det/setSizeYZ 20 mm
 #
 
 #/globalField/setValue 0. 1. 0. tesla
@@ -25,7 +25,7 @@
 #
 /testem/gun/setDefault
 /gun/particle e-
-/gun/energy 300 MeV
+/gun/energy 150 MeV
 
 
 #
