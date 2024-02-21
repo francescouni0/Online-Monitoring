@@ -7,8 +7,10 @@
 /control/verbose 2
 /run/verbose 1
 #
-/testem/det/setNbOfAbsor  1
-/testem/det/setAbsor 1 plexiglass  120 mm
+/testem/det/setNbOfAbsor  3
+/testem/det/setAbsor 1 plexiglass  180 mm
+/testem/det/setAbsor 2 G4_BONE_COMPACT_ICRU  60 mm
+/testem/det/setAbsor 3 plexiglass  60 mm
 /testem/det/setSizeYZ 200 mm
 #
 
@@ -25,7 +27,7 @@
 #
 /testem/gun/setDefault
 /gun/particle e-
-/gun/energy 300 MeV
+/gun/energy 150 MeV
 
 
 #

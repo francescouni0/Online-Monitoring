@@ -130,10 +130,12 @@ void DetectorConstruction::DefineMaterials()
   man->FindOrBuildMaterial("G4_Pb");  
   man->FindOrBuildMaterial("G4_PbWO4");
   man->FindOrBuildMaterial("G4_SODIUM_IODIDE");
-  man->FindOrBuildMaterial("G4_PLEXIGLASS"); 
   man->FindOrBuildMaterial("G4_AIR");
   man->FindOrBuildMaterial("G4_WATER");
-  
+  man->FindOrBuildMaterial("G4_BONE_COMPACT_ICRU");
+  man->FindOrBuildMaterial("G4_PLEXIGLASS"); 
+
+
   G4Element* H = man->FindOrBuildElement("H"); 
   G4Element* O = man->FindOrBuildElement("O");
   G4Element* C = man->FindOrBuildElement("C"); //Fadd
@@ -313,21 +315,65 @@ G4Box* solidWorld =
 //                    logicWorld,
 //                    false,
 //                    0);
-//  G4Box* solidBox = new G4Box("Box",1*cm, 1*cm, 0.5*cm);
-//  G4NistManager* nist = G4NistManager::Instance();
-//  G4Material* lead = nist->FindOrBuildMaterial("G4_Pb");
-//  G4LogicalVolume* logicBox =
-//      new G4LogicalVolume(solidBox,
-//                          lead, // Air material
-//                          "Box");
-//  G4ThreeVector boxposition= G4ThreeVector(-20*mm, 0, 0);
-//  new G4PVPlacement(rotation,
-//                    boxposition,
-//                    logicBox,
-//                    "Box",
+
+
+
+
+
+//COMPOSITE MATERIAL
+
+
+   // Set visual attributes for visualization
+  G4VisAttributes* VisAtt1 = new G4VisAttributes(G4Colour(0, 0, 1)); // blue color
+  VisAtt1->SetVisibility(true);
+  G4VisAttributes* VisAtt2 = new G4VisAttributes(G4Colour(1, 0, 0)); // blue color
+  VisAtt2->SetVisibility(true);
+
+
+//  G4Box* solidBox1 = new G4Box("Comp1",3*cm, 1*cm, 1*cm);
+  G4NistManager* nist = G4NistManager::Instance();
+//  G4Material* bone = nist->FindOrBuildMaterial("G4_Au");
+  G4Material* plex = nist->FindOrBuildMaterial("G4_PLEXIGLASS");
+//
+//  G4LogicalVolume* logicBox1 =
+//      new G4LogicalVolume(solidBox1,
+//                          bone, // Air material
+//                          "Comp1");
+//  G4ThreeVector boxposition1= G4ThreeVector(+120*mm, 0, 0);
+//  logicBox1->SetVisAttributes(VisAtt1);
+//
+//  new G4PVPlacement(0,
+//                    boxposition1,
+//                    logicBox1,
+//                    "Comp1",
 //                    logicWorld,
 //                    false,
 //                    0);
+//
+  G4Box* solidBox2 = new G4Box("Comp2",4*cm, 10*cm, 10*cm);
+
+  G4LogicalVolume* logicBox2 =
+      new G4LogicalVolume(solidBox2,
+                          plex, // Air material
+                          "Comp2");
+  G4ThreeVector boxposition2= G4ThreeVector(150*mm, 0, 0);
+  logicBox2->SetVisAttributes(VisAtt2);
+
+  new G4PVPlacement(0,
+                    boxposition2,
+                    logicBox2,
+                    "Comp2",
+                    logicWorld,
+                    false,
+                    0);
+
+
+
+
+
+
+
+
    // Set visual attributes for visualization
 
 //Cono
@@ -538,7 +584,7 @@ G4Box* solidWorld =
     G4LogicalVolume* logicAbsor =
       new G4LogicalVolume(solidAbsor,           // solid
                           material,             // material
-                          matname,
+                          matname
                           );             // name
                                      
     fXfront[k] = fXfront[k-1] + fAbsorThickness[k-1];    
@@ -600,7 +646,7 @@ G4Box* solidWorld =
       //j*22.5*deg rotaaizone
       //G4Translate3D transXscint(G4ThreeVector(-40*cm + i*20*mm,0.*mm,5./tan(1.8/2*deg)*mm + 5.*mm ));
 
-      G4Translate3D transXdet(G4ThreeVector(0*cm ,0*cm,30*cm));  //prende la metà della dimensione -45
+      G4Translate3D transXdet(G4ThreeVector(6*cm-j*12*cm ,0*cm,30*cm));  //prende la metà della dimensione -45
 
       //-40*cm + i*10*mm Direzione lungo asse x
       //5./tan(22.5/2*deg)*cm + 5.*cm  lungo z
