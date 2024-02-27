@@ -81,6 +81,13 @@
 #include "G4NuclideTable.hh"
 #include "StepMax.hh"
 
+
+#include "G4HadronElasticPhysics.hh"
+#include "G4HadronPhysicsQGSP_BIC_HP.hh"
+#include "G4IonBinaryCascadePhysics.hh"
+#include "G4EmExtraPhysics.hh"
+#include "G4StoppingPhysics.hh"
+
 G4ThreadLocal StepMax* PhysicsList::fStepMaxProcess = nullptr;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -92,7 +99,13 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
   SetVerboseLevel(1);
 
   // EM physics
-  fEmPhysicsList = new PhysListEmStandard(fEmName = "local");
+  fEmPhysicsList = new G4EmPenelopePhysics();
+  fHadron = new G4HadronElasticPhysics();
+  fHadron1 = new G4HadronPhysicsQGSP_BIC_HP();
+  fHadron2 = new G4IonBinaryCascadePhysics();
+  fHadron3 = new G4EmExtraPhysics();
+  //fHadron4 = new G4StoppingPhysics();
+
   //FADD
   //fHadronicPhysicsList = new QGSP_BIC_HP(0); //da commentadre e scommentare
   
@@ -109,6 +122,12 @@ PhysicsList::~PhysicsList()
   delete fMessenger;
   delete fEmPhysicsList;
   delete fHadronicPhysicsList;
+  delete fHadron;
+  delete fHadron1;
+  delete fHadron2;
+  delete fHadron3;
+  //delete fHadron4;
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -148,6 +167,11 @@ void PhysicsList::ConstructProcess()
   // electromagnetic physics list
   //
   fEmPhysicsList->ConstructProcess();
+  fHadron->ConstructProcess();
+  fHadron1->ConstructProcess();
+  fHadron2->ConstructProcess();
+  fHadron3->ConstructProcess();
+  //fHadron4->ConstructProcess();
 
   //FADD
     // Hadronic physics list (QGSP_BERT) da commentare e scommentare

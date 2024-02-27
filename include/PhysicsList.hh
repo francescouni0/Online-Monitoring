@@ -73,6 +73,11 @@ class PhysicsList: public G4VModularPhysicsList
 
     PhysicsListMessenger*  fMessenger;
     QGSP_BIC_HP* fHadronicPhysicsList;
+    G4VPhysicsConstructor* fHadron;
+        G4VPhysicsConstructor* fHadron1;
+    G4VPhysicsConstructor* fHadron2;
+    G4VPhysicsConstructor* fHadron3;
+    G4VPhysicsConstructor* fHadron4;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
