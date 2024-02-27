@@ -133,7 +133,7 @@ void DetectorConstruction::DefineMaterials()
   man->FindOrBuildMaterial("G4_AIR");
   man->FindOrBuildMaterial("G4_WATER");
   man->FindOrBuildMaterial("G4_BONE_COMPACT_ICRU");
-  man->FindOrBuildMaterial("G4_PLEXIGLASS"); 
+  //man->FindOrBuildMaterial("G4_PLEXIGLASS"); 
 
 
   G4Element* H = man->FindOrBuildElement("H"); 
@@ -630,7 +630,7 @@ G4Box* solidWorld =
 
   fscoringVolume = logicScintillator;
 
-  solidDetector= new G4Box("solidDetector", 2.5*cm, 2.5*cm, 1*mm); //prende il doppio della dimensione
+  solidDetector= new G4Box("solidDetector", 15*cm, 10*cm, 1*mm); //prende il doppio della dimensione
 
   logicDetector= new G4LogicalVolume(solidDetector, man->FindOrBuildMaterial("G4_SODIUM_IODIDE"),"logicDetector");
 

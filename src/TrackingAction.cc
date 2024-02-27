@@ -49,6 +49,8 @@
 #include <fstream>
 
 
+
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 TrackingAction::TrackingAction(DetectorConstruction* det)
@@ -60,20 +62,26 @@ TrackingAction::TrackingAction(DetectorConstruction* det)
 void TrackingAction::PostUserTrackingAction(const G4Track* track)
 {//Fadd per positroni
 // Check if the track corresponds to a positron that has annihilated
+
 if (track->GetDefinition()->GetParticleName() == "e+") {
     if (track->GetTrackStatus() == fStopAndKill) {
-        // Retrieve the position of annihilation
-        G4ThreeVector annihilationPos = track->GetPosition();
-        annihilationPos = annihilationPos + G4ThreeVector(300*mm,150*mm,150*mm);
-        // Save the position in a CSV file
-        std::ofstream outputFile("annihilation_positions.csv", std::ios_base::app);
-        if (outputFile.is_open()) {
-            // Write the position to the file
-            outputFile << annihilationPos.x()/mm << "," << annihilationPos.y()/mm << ","
-                       << annihilationPos.z()/mm << std::endl;
-            outputFile.close();
-        } else {
-            G4cout << "Unable to open the output file." << G4endl;
+        G4VPhysicalVolume* volume = track->GetVolume();
+        //G4cout << volume->GetName() << G4endl;
+
+        if (volume && volume->GetName() == "Plexiglass") {
+            // Retrieve the position of annihilation
+            G4ThreeVector annihilationPos = track->GetPosition();
+            annihilationPos = annihilationPos ;
+            // Save the position in a CSV file
+            std::ofstream outputFile("annihilation_positions.csv", std::ios_base::app);
+            if (outputFile.is_open()) {
+                // Write the position to the file
+                outputFile << annihilationPos.x()/mm << "," << annihilationPos.y()/mm << ","
+                           << annihilationPos.z()/mm << std::endl;
+                outputFile.close();
+            } else {
+                G4cout << "Unable to open the output file." << G4endl;
+            }
         }
     }
 }
