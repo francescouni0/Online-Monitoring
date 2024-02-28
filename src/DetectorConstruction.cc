@@ -229,8 +229,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   //
   // World
   //
-G4double worldSizeX = fAbsorSizeX*100;  // Make the world volume twice as big as the absorber
-G4double worldSizeYZ = fAbsorSizeYZ*100; 
+G4double worldSizeX = fAbsorSizeX*5;  // Make the world volume twice as big as the absorber
+G4double worldSizeYZ = fAbsorSizeYZ*5; 
 
 G4Box* solidWorld =
   new G4Box("World",

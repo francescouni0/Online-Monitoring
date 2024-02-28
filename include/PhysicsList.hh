@@ -78,6 +78,8 @@ class PhysicsList: public G4VModularPhysicsList
     G4VPhysicsConstructor* fHadron2;
     G4VPhysicsConstructor* fHadron3;
     G4VPhysicsConstructor* fHadron4;
+    G4VPhysicsConstructor* dec;
+    G4VPhysicsConstructor* dec1;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

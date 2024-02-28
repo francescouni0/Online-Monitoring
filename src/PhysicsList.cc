@@ -87,6 +87,9 @@
 #include "G4IonBinaryCascadePhysics.hh"
 #include "G4EmExtraPhysics.hh"
 #include "G4StoppingPhysics.hh"
+#include "G4DecayPhysics.hh"
+#include "G4RadioactiveDecayPhysics.hh"
+
 
 G4ThreadLocal StepMax* PhysicsList::fStepMaxProcess = nullptr;
 
@@ -104,6 +107,9 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
   fHadron1 = new G4HadronPhysicsQGSP_BIC_HP();
   fHadron2 = new G4IonBinaryCascadePhysics();
   fHadron3 = new G4EmExtraPhysics();
+  dec = new G4DecayPhysics();
+  dec1= new G4RadioactiveDecayPhysics();
+
   //fHadron4 = new G4StoppingPhysics();
 
   //FADD
@@ -126,6 +132,9 @@ PhysicsList::~PhysicsList()
   delete fHadron1;
   delete fHadron2;
   delete fHadron3;
+  delete dec;
+  delete dec1;
+
   //delete fHadron4;
 
 }
@@ -171,6 +180,8 @@ void PhysicsList::ConstructProcess()
   fHadron1->ConstructProcess();
   fHadron2->ConstructProcess();
   fHadron3->ConstructProcess();
+  dec->ConstructProcess();
+  dec1->ConstructProcess();
   //fHadron4->ConstructProcess();
 
   //FADD
