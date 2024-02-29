@@ -8,7 +8,7 @@
 /run/verbose 1
 #
 /testem/det/setNbOfAbsor  1
-/testem/det/setAbsor 1 Plexiglass  300 mm
+/testem/det/setAbsor 1 Plexiglass  600 mm
 /testem/det/setSizeYZ 200 mm
 #
 
@@ -38,5 +38,5 @@
 ##
 /testem/applyAutomaticStepMax false
 #
-/run/printProgress 1
+/run/printProgress 1000
 /run/beamOn 100000
