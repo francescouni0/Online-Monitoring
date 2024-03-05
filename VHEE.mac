@@ -8,8 +8,8 @@
 /run/verbose 1
 #
 /testem/det/setNbOfAbsor  1
-/testem/det/setAbsor 1 Plexiglass  600 mm
-/testem/det/setSizeYZ 200 mm
+/testem/det/setAbsor 1 Plexiglass  300 mm
+/testem/det/setSizeYZ 120 mm
 #
 
 #/globalField/setValue 0. 1. 0. tesla

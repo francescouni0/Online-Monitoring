@@ -102,7 +102,11 @@ void RunAction::BeginOfRunAction(const G4Run*)
     analysisManager->OpenFile();
 
     // Define and create an ntuple (You need to customize this based on your data)
+
     analysisManager->CreateNtuple("Hits", "Hits");
+    analysisManager->CreateNtupleFColumn("EDep");
+    analysisManager->CreateNtupleFColumn("xloc");
+
     analysisManager->CreateNtupleDColumn("x");
     analysisManager->CreateNtupleDColumn("y");
     analysisManager->CreateNtupleDColumn("z");

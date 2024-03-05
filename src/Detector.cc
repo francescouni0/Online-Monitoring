@@ -56,17 +56,21 @@ G4bool SensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory* /*ROhis
        G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
 
        G4int parentID = track->GetParentID();
+
+
+
+
    
        G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-       analysisManager->FillNtupleDColumn(0, x);
-       analysisManager->FillNtupleDColumn(1, y);
-       analysisManager->FillNtupleDColumn(2, z);
-       analysisManager->FillNtupleDColumn(3, initialEnergy);
-       analysisManager->FillNtupleDColumn(4, TOF); // TOF information
-       analysisManager->FillNtupleSColumn(5, particleName);
-       analysisManager->FillNtupleSColumn(6, processName);
-       analysisManager->FillNtupleIColumn(7, evt);
-       analysisManager->FillNtupleIColumn(8, parentID);
+       analysisManager->FillNtupleDColumn(2, x);
+       analysisManager->FillNtupleDColumn(3, y);
+       analysisManager->FillNtupleDColumn(4, z);
+       analysisManager->FillNtupleDColumn(5, initialEnergy);
+       analysisManager->FillNtupleDColumn(6, TOF); // TOF information
+       analysisManager->FillNtupleSColumn(7, particleName);
+       analysisManager->FillNtupleSColumn(8, processName);
+       analysisManager->FillNtupleIColumn(9, evt);
+       analysisManager->FillNtupleIColumn(10, parentID);
        analysisManager->AddNtupleRow(0);
    
        // Set the track status to stop and kill
@@ -86,7 +90,7 @@ G4bool SensitiveDetector::IsGeneratedInScoringVolume(G4Step* aStep) {
     // Check if the creation point is within the detector volume
     bool isInDetectorVolume =
         (creationPoint.x() >= -300 * cm) && (creationPoint.x() <=300 * cm) &&  // Half-length in x direction
-        (creationPoint.y() >= -20 * cm) && (creationPoint.y() <= 20 * cm) &&  // Half-length in y direction
-        (creationPoint.z() >= -20 * cm) && (creationPoint.z() <= 20 * cm);    // Half-length in z direction    
+        (creationPoint.y() >= -30 * cm) && (creationPoint.y() <= 30 * cm) &&  // Half-length in y direction
+        (creationPoint.z() >= -30 * cm) && (creationPoint.z() <= 30 * cm);    // Half-length in z direction    
     return isInDetectorVolume;
 }
