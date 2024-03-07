@@ -103,47 +103,55 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
     // Get the particle's name
    // G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
-
-if (particleName == "C11")
-{
-    // Check if the particle is entering the "Tube" volume
-    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
-    // Retrieve the kinetic energy and position
-    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
-    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
-    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-    // Save the data to a file named after the particle name
-    std::string fileName = particleName + "_entering_particles.csv";
-    std::ofstream outputFile(fileName, std::ios_base::app);
-    if (outputFile.is_open()) {
-        outputFile << kineticEnergy / keV << "," << position.x() / mm << ","
-                   << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
-        outputFile.close();
-    } else {
-        G4cout << "Unable to open the output file." << G4endl;
-    }
+//
+//if (particleName == "C11")
+//{
+//    // Check if the particle is entering the "Tube" volume
+//    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
+//    // Retrieve the kinetic energy and position
+//    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+//    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
+//    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+//    G4ThreeVector pmomentum = step->GetPreStepPoint()->GetMomentumDirection();
+//    // Save the data to a file named after the particle name
+//    std::string fileName = particleName + "_entering_particles.csv";
+//    std::ofstream outputFile(fileName, std::ios_base::app);
+//    if (outputFile.is_open()) {
+//        outputFile << kineticEnergy / keV << "," 
+//                   << position.x() / mm << ","
+//                   << position.y() / mm << "," 
+//                   << position.z() / mm << ","
+//                   << pmomentum.x()  << ","
+//                   << pmomentum.y()  << "," 
+//                   << pmomentum.z()  << ","
+//                   << evt 
+//                   << std::endl;
+//        outputFile.close();
+//    } else {
+//        G4cout << "Unable to open the output file." << G4endl;
+//    }
     
-}
-if (particleName == "O15")
-{
-    // Check if the particle is entering the "Tube" volume
-    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
-    // Retrieve the kinetic energy and position
-    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
-    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
-    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-    // Save the data to a file named after the particle name
-    std::string fileName = particleName + "_entering_particles.csv";
-    std::ofstream outputFile(fileName, std::ios_base::app);
-    if (outputFile.is_open()) {
-        outputFile << kineticEnergy / keV << "," << position.x() / mm << ","
-                   << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
-        outputFile.close();
-    } else {
-        G4cout << "Unable to open the output file." << G4endl;
-    }
-    
-}
+//}
+//if (particleName == "O15")
+//{
+//    // Check if the particle is entering the "Tube" volume
+//    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
+//    // Retrieve the kinetic energy and position
+//    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+//    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
+//    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+//    // Save the data to a file named after the particle name
+//    std::string fileName = particleName + "_entering_particles.csv";
+//    std::ofstream outputFile(fileName, std::ios_base::app);
+//    if (outputFile.is_open()) {
+//        outputFile << kineticEnergy / keV << "," << position.x() / mm << ","
+//                   << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
+//        outputFile.close();
+//    } else {
+//        G4cout << "Unable to open the output file." << G4endl;
+//    }
+//    
+//}
 
 ///EDEP FADD (Da commentare per grandi eventi perche fa file giganti)
 
