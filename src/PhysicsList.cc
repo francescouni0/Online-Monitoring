@@ -102,7 +102,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
   SetVerboseLevel(1);
 
   // EM physics
-  fEmPhysicsList = new G4EmPenelopePhysics();
+  fEmPhysicsList = new G4EmStandardPhysics_option1();
   fHadron = new G4HadronElasticPhysics();
   fHadron1 = new G4HadronPhysicsQGSP_BIC_HP();
   fHadron2 = new G4IonBinaryCascadePhysics();
@@ -110,7 +110,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
   dec = new G4DecayPhysics();
   dec1= new G4RadioactiveDecayPhysics();
 
-  //fHadron4 = new G4StoppingPhysics();
+  fHadron4 = new G4StoppingPhysics();
 
   //FADD
   //fHadronicPhysicsList = new QGSP_BIC_HP(0); //da commentadre e scommentare
@@ -132,6 +132,7 @@ PhysicsList::~PhysicsList()
   delete fHadron1;
   delete fHadron2;
   delete fHadron3;
+  delete fHadron4;
   delete dec;
   delete dec1;
 
@@ -182,7 +183,7 @@ void PhysicsList::ConstructProcess()
   fHadron3->ConstructProcess();
   dec->ConstructProcess();
   dec1->ConstructProcess();
-  //fHadron4->ConstructProcess();
+  fHadron4->ConstructProcess();
 
   //FADD
     // Hadronic physics list (QGSP_BERT) da commentare e scommentare

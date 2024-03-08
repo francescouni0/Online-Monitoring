@@ -154,28 +154,29 @@ if (particleName == "O15")
 
 ///EDEP FADD (Da commentare per grandi eventi perche fa file giganti)
 
-
-    //G4double edep = step->GetTotalEnergyDeposit()/ MeV;
-    //       
-    ////longitudinal profile of deposited energy
-    ////randomize point of energy deposotion
-    ////
-    //G4StepPoint* prePoint  = step->GetPreStepPoint();
-    //G4StepPoint* postPoint = step->GetPostStepPoint(); 
-    //G4ThreeVector P1 = prePoint ->GetPosition();
-    //G4ThreeVector P2 = postPoint->GetPosition();
-    //G4ThreeVector point = P1 + G4UniformRand()*(P2 - P1);
-    //if (step->GetTrack()->GetDefinition()->GetPDGCharge() == 0.) point = P2;
-    //G4double xloc = point.x();
-
-    //G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    //analysisManager->FillNtupleFColumn(0, edep);
-    //analysisManager->FillNtupleFColumn(1, xloc);
+//    if (volume && volume->GetName() == "Plexiglass") {
 //
-    //analysisManager->AddNtupleRow(0);
-
-
-
+//    G4double edep = step->GetTotalEnergyDeposit();
+//           
+//    //longitudinal profile of deposited energy
+//    //randomize point of energy deposotion
+//    //
+//    G4StepPoint* prePoint  = step->GetPreStepPoint();
+//    G4StepPoint* postPoint = step->GetPostStepPoint(); 
+//    G4ThreeVector P1 = prePoint ->GetPosition();
+//    G4ThreeVector P2 = postPoint->GetPosition();
+//    G4ThreeVector point = P1 + G4UniformRand()*(P2 - P1);
+//    if (step->GetTrack()->GetDefinition()->GetPDGCharge() == 0.) point = P2;
+//    G4double xloc = point.x();
+//    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+//
+//    analysisManager->FillNtupleFColumn(0, edep);
+//    analysisManager->FillNtupleFColumn(1, xloc);
+//
+//    analysisManager->AddNtupleRow(0);
+//
+//    }
+//
 
 
 

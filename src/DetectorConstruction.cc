@@ -503,7 +503,7 @@ G4Box* solidWorld =
 
 //Septa1 & 2
 
-  // Define septa dimensions
+//  // Define septa dimensions
 //  G4double septaX = 3 * cm;
 //  G4double septaY = 67.5 * cm;
 //  G4double septaZ = 26 * cm;
@@ -515,7 +515,7 @@ G4Box* solidWorld =
 //
 //  G4LogicalVolume* firstCollimatorLogical = new G4LogicalVolume(collimatorSolid, lead, "FirstCollimator_Logical");
 //  // Position the first collimator
-//  G4ThreeVector firstCollimatorPosition = G4ThreeVector(-7.75 * cm, 0.0, 39.75*cm); // Example position 20 cm in front of the detector
+//  G4ThreeVector firstCollimatorPosition = G4ThreeVector(12.25 * cm, 0.0, 39.75*cm); // Example position 20 cm in front of the detector
 //  G4RotationMatrix* Rotation = new G4RotationMatrix();
 //  Rotation->rotateX(90.0 * deg);
 //  G4Transform3D firstCollimatorTransform = G4Transform3D(*Rotation, firstCollimatorPosition);
@@ -526,7 +526,7 @@ G4Box* solidWorld =
 //  // Create logical volume for the second collimator
 //  G4LogicalVolume* secondCollimatorLogical = new G4LogicalVolume(secondCollimatorSolid, lead, "SecondCollimator_Logical");
 //  // Position the second collimator
-//  G4ThreeVector secondCollimatorPosition = G4ThreeVector(-7.75*cm, 0.0, -39.75*cm); // Adjust position for separation
+//  G4ThreeVector secondCollimatorPosition = G4ThreeVector(12.25*cm, 0.0, -39.75*cm); // Adjust position for separation
 //  G4Transform3D secondCollimatorTransform = G4Transform3D(*Rotation, secondCollimatorPosition);
 //  // Place the second collimator in the detector setup
 //  new G4PVPlacement(secondCollimatorTransform, secondCollimatorLogical, "SecondCollimator_Physical", logicWorld, false, 1);
@@ -548,7 +548,7 @@ G4Box* solidWorld =
 //
 //  G4LogicalVolume* thirdCollimatorLogical = new G4LogicalVolume(thirdcollimatorSolid, lead, "ThirdCollimator_Logical");
 //  // Position the first collimator
-//  G4ThreeVector thirdCollimatorPosition = G4ThreeVector(-2.25 * cm, 0.0, 39.75*cm); // Example position 20 cm in front of the detector
+//  G4ThreeVector thirdCollimatorPosition = G4ThreeVector(17.75 * cm, 0.0, 39.75*cm); // Example position 20 cm in front of the detector
 //  G4Transform3D thirdCollimatorTransform = G4Transform3D(*Rotation, thirdCollimatorPosition);
 //  // Place the first collimator in the detector setup
 //  new G4PVPlacement(thirdCollimatorTransform, thirdCollimatorLogical, "ThirdCollimator_Physical", logicWorld, false, 0);
@@ -557,7 +557,7 @@ G4Box* solidWorld =
 //  // Create logical volume for the fourth collimator
 //  G4LogicalVolume* fourthCollimatorLogical = new G4LogicalVolume(fourthCollimatorSolid, lead, "fourthCollimator_Logical");
 //  // Position the fourth collimator
-//  G4ThreeVector fourthCollimatorPosition = G4ThreeVector(-2.25*cm, 0.0, -39.75*cm); // Adjust position for separation
+//  G4ThreeVector fourthCollimatorPosition = G4ThreeVector(17.75*cm, 0.0, -39.75*cm); // Adjust position for separation
 //  G4Transform3D fourthCollimatorTransform = G4Transform3D(*Rotation, fourthCollimatorPosition);
 //  // Place the fourth collimator in the detector setup
 //  new G4PVPlacement(fourthCollimatorTransform, fourthCollimatorLogical, "fourthCollimator_Physical", logicWorld, false, 1);
@@ -567,7 +567,7 @@ G4Box* solidWorld =
 //  thirdCollimatorLogical->SetVisAttributes(cVisAtt);
 //  // Set visualization attributes for the fourth collimator
 //  fourthCollimatorLogical->SetVisAttributes(cVisAtt);
-// 
+ 
 
 
 //FADD fantoccio cilindrico
@@ -581,10 +581,10 @@ G4Box* solidWorld =
   for (G4int k=1; k<=fNbOfAbsor; k++) {
     G4Material* material = fAbsorMaterial[k];
     G4String matname = material->GetName();
-    //G4Tubs* solidAbsor = new G4Tubs(matname, 0, 0.5*fAbsorSizeYZ, 0.5*fAbsorSizeX, 0, 2*M_PI);
+    G4Tubs* solidAbsor = new G4Tubs(matname, 0, 0.5*fAbsorSizeYZ, 0.5*fAbsorSizeX, 0, 2*M_PI);
       
-    G4Box* solidAbsor =
-      new G4Box(matname,fAbsorThickness[k]/2,fAbsorSizeYZ/2,fAbsorSizeYZ/2);
+    //G4Box* solidAbsor =
+    //  new G4Box(matname,fAbsorThickness[k]/2,fAbsorSizeYZ/2,fAbsorSizeYZ/2);
 
     G4LogicalVolume* logicAbsor =
       new G4LogicalVolume(solidAbsor,           // solid
@@ -602,7 +602,7 @@ G4Box* solidWorld =
     rotationTub->rotateY(-90.0 * deg);
 
   
-      new G4PVPlacement(0,                     //no rotation
+      new G4PVPlacement(rotationTub,                     //no rotation
                               G4ThreeVector(0.,0.,0.),        //position
                         logicAbsor,            //logical volume        
                         matname,               //name
@@ -662,7 +662,7 @@ G4Box* solidWorld =
       //j*22.5*deg rotaaizone
       //G4Translate3D transXscint(G4ThreeVector(-40*cm + i*20*mm,0.*mm,5./tan(1.8/2*deg)*mm + 5.*mm ));
 
-      G4Translate3D transXdet(G4ThreeVector( -5*cm+j*10*cm,0*cm,30*cm));  //prende la metà della dimensione -45
+      G4Translate3D transXdet(G4ThreeVector( 15*cm-j*30*cm,0*cm,30*cm));  //prende la metà della dimensione -45
       //6*cm-j*12*cm
       //-40*cm + i*10*mm Direzione lungo asse x
       //5./tan(22.5/2*deg)*cm + 5.*cm  lungo z

@@ -8,7 +8,7 @@
 /run/verbose 1
 #
 /testem/det/setNbOfAbsor  1
-/testem/det/setAbsor 1 G4_PLEXIGLASS  300 mm
+/testem/det/setAbsor 1 Plexiglass  600 mm
 /testem/det/setSizeYZ 120 mm
 #
 
@@ -25,7 +25,7 @@
 #
 /testem/gun/setDefault
 /gun/particle e-
-/gun/energy 80 MeV
+/gun/energy 150 MeV
 
 
 #
