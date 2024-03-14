@@ -581,10 +581,10 @@ G4Box* solidWorld =
   for (G4int k=1; k<=fNbOfAbsor; k++) {
     G4Material* material = fAbsorMaterial[k];
     G4String matname = material->GetName();
-    G4Tubs* solidAbsor = new G4Tubs(matname, 0, 0.5*fAbsorSizeYZ, 0.5*fAbsorSizeX, 0, 2*M_PI);
+    //G4Tubs* solidAbsor = new G4Tubs(matname, 0, 0.5*fAbsorSizeYZ, 0.5*fAbsorSizeX, 0, 2*M_PI);
       
-    //G4Box* solidAbsor =
-    //  new G4Box(matname,fAbsorThickness[k]/2,fAbsorSizeYZ/2,fAbsorSizeYZ/2);
+    G4Box* solidAbsor =
+      new G4Box(matname,fAbsorThickness[k]/2,fAbsorSizeYZ/2,fAbsorSizeYZ/2);
 
     G4LogicalVolume* logicAbsor =
       new G4LogicalVolume(solidAbsor,           // solid
@@ -602,7 +602,7 @@ G4Box* solidWorld =
     rotationTub->rotateY(-90.0 * deg);
 
   
-      new G4PVPlacement(rotationTub,                     //no rotation
+      new G4PVPlacement(0,                     //no rotation
                               G4ThreeVector(0.,0.,0.),        //position
                         logicAbsor,            //logical volume        
                         matname,               //name
