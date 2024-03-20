@@ -229,7 +229,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   //
   // World
   //
-G4double worldSizeX = fAbsorSizeX*10;  // Make the world volume twice as big as the absorber
+G4double worldSizeX = fAbsorSizeX*100;  // Make the world volume twice as big as the absorber
 G4double worldSizeYZ = fAbsorSizeYZ*100; 
 
 G4Box* solidWorld =
@@ -353,13 +353,13 @@ G4Box* solidWorld =
 
 ///TARGHETTA
 //  G4Material* tung = nist->FindOrBuildMaterial("G4_W");
-//  G4Box* solidBox2 = new G4Box("Comp2",0.5*mm, 2*cm, 2*cm);
+//  G4Box* solidBox2 = new G4Box("Comp2",8*mm, (2.5/2)*cm, 1*cm);
 //
 //  G4LogicalVolume* logicBox2 =
 //      new G4LogicalVolume(solidBox2,
 //                          tung, 
 //                          "Comp2");
-//  G4ThreeVector boxposition2= G4ThreeVector(-205*mm, 0, 0);
+//  G4ThreeVector boxposition2= G4ThreeVector(-28*mm, 0, 0);
 //  logicBox2->SetVisAttributes(VisAtt2);
 //
 //  new G4PVPlacement(0,
@@ -581,10 +581,10 @@ G4Box* solidWorld =
   for (G4int k=1; k<=fNbOfAbsor; k++) {
     G4Material* material = fAbsorMaterial[k];
     G4String matname = material->GetName();
-    //G4Tubs* solidAbsor = new G4Tubs(matname, 0, 0.5*fAbsorSizeYZ, 0.5*fAbsorSizeX, 0, 2*M_PI);
+    G4Tubs* solidAbsor = new G4Tubs(matname, 0, 0.5*fAbsorSizeYZ, 0.5*fAbsorSizeX, 0, 2*M_PI);
       
-    G4Box* solidAbsor =
-      new G4Box(matname,fAbsorThickness[k]/2,fAbsorSizeYZ/2,fAbsorSizeYZ/2);
+   // G4Box* solidAbsor =
+   //   new G4Box(matname,fAbsorThickness[k]/2,(2.5/2)*cm,1*cm);
 
     G4LogicalVolume* logicAbsor =
       new G4LogicalVolume(solidAbsor,           // solid
@@ -602,7 +602,7 @@ G4Box* solidWorld =
     rotationTub->rotateY(-90.0 * deg);
 
   
-      new G4PVPlacement(0,                     //no rotation
+      new G4PVPlacement(rotationTub,                     //no rotation
                               G4ThreeVector(0.,0.,0.),        //position
                         logicAbsor,            //logical volume        
                         matname,               //name
@@ -652,17 +652,19 @@ G4Box* solidWorld =
 
   for(G4int i=0;i<0;i++)
   {
-    for(G4int j=0;j<2;j++)
+    for(G4int j=0;j<0;j++)
     {
-      G4Rotate3D rotZ(j*180*deg, G4ThreeVector(0,1,0));
+      //G4Rotate3D rotZ(j*180*deg, G4ThreeVector(0,1,0));
       //fondo
-      //G4Rotate3D rotZ(90*deg, G4ThreeVector(0,1,0));
+      G4Rotate3D rotZ(90*deg, G4ThreeVector(0,1,0));
 
       //j*180*deg
       //j*22.5*deg rotaaizone
       //G4Translate3D transXscint(G4ThreeVector(-40*cm + i*20*mm,0.*mm,5./tan(1.8/2*deg)*mm + 5.*mm ));
 
-      G4Translate3D transXdet(G4ThreeVector( 15*cm-j*30*cm,0*cm,30*cm));  //prende la metà della dimensione -45
+      //G4Translate3D transXdet(G4ThreeVector( 15*cm-j*30*cm,0*cm,30*cm));  //prende la metà della dimensione -45
+      G4Translate3D transXdet(G4ThreeVector( 0*mm,0*mm,32*mm));  //prende la metà della dimensione -45
+
       //6*cm-j*12*cm
       //-40*cm + i*10*mm Direzione lungo asse x
       //5./tan(22.5/2*deg)*cm + 5.*cm  lungo z
