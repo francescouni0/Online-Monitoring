@@ -133,6 +133,7 @@ void DetectorConstruction::DefineMaterials()
   man->FindOrBuildMaterial("G4_AIR");
   man->FindOrBuildMaterial("G4_WATER");
   man->FindOrBuildMaterial("G4_BONE_COMPACT_ICRU");
+  man->FindOrBuildMaterial("G4_CONCRETE");
  // man->FindOrBuildMaterial("G4_PLEXIGLASS"); 
 
 
