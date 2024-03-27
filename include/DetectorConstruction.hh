@@ -99,6 +99,7 @@ private:
   G4Material*        fDefaultMaterial;
   G4Material*        NaI; 
   G4Material*        plexiglass; 
+  G4Material*        LYSO;
   G4Material*        tubemat;  
   //FADD
 

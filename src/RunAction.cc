@@ -117,6 +117,7 @@ void RunAction::BeginOfRunAction(const G4Run*)
     analysisManager->CreateNtupleSColumn("processName");
     analysisManager->CreateNtupleIColumn("evt");
     analysisManager->CreateNtupleIColumn("parentID");
+    analysisManager->CreateNtupleDColumn("EDepDet"); // Energy deposition in the detector
 
     // Add more columns as needed
     analysisManager->FinishNtuple(0);

@@ -80,6 +80,8 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
     G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
     if (volume && volume->GetName() == "Plexiglass") {
+        if (particleName == "gamma")
+{
         // Retrieve the kinetic energy and position
         G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
         G4double energyDeposited = step->GetTotalEnergyDeposit();
@@ -99,6 +101,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         } else {
             G4cout << "Unable to open the output file." << G4endl;
         }
+}
     }
 
     // Get the particle's name
@@ -154,28 +157,29 @@ if (particleName == "O15")
 
 ///EDEP FADD (Da commentare per grandi eventi perche fa file giganti)
 
-    if (volume && volume->GetName() == "Plexiglass") {
+//    if (volume && volume->GetName() == "Plexiglass") {
+//
+//    G4double edep = step->GetTotalEnergyDeposit();
+//           
+//    //longitudinal profile of deposited energy
+//    //randomize point of energy deposotion
+//    //
+//    G4StepPoint* prePoint  = step->GetPreStepPoint();
+//    G4StepPoint* postPoint = step->GetPostStepPoint(); 
+//    G4ThreeVector P1 = prePoint ->GetPosition();
+//    G4ThreeVector P2 = postPoint->GetPosition();
+//    G4ThreeVector point = P1 + G4UniformRand()*(P2 - P1);
+//    if (step->GetTrack()->GetDefinition()->GetPDGCharge() == 0.) point = P2;
+//    G4double xloc = point.x();
+//    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+//
+//    analysisManager->FillNtupleFColumn(0, edep);
+//    analysisManager->FillNtupleFColumn(1, xloc);
+//
+//    analysisManager->AddNtupleRow(0);
+//
+//    }
 
-    G4double edep = step->GetTotalEnergyDeposit();
-           
-    //longitudinal profile of deposited energy
-    //randomize point of energy deposotion
-    //
-    G4StepPoint* prePoint  = step->GetPreStepPoint();
-    G4StepPoint* postPoint = step->GetPostStepPoint(); 
-    G4ThreeVector P1 = prePoint ->GetPosition();
-    G4ThreeVector P2 = postPoint->GetPosition();
-    G4ThreeVector point = P1 + G4UniformRand()*(P2 - P1);
-    if (step->GetTrack()->GetDefinition()->GetPDGCharge() == 0.) point = P2;
-    G4double xloc = point.x();
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-
-    analysisManager->FillNtupleFColumn(0, edep);
-    analysisManager->FillNtupleFColumn(1, xloc);
-
-    analysisManager->AddNtupleRow(0);
-
-    }
 //
 
 

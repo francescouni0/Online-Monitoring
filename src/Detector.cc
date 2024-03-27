@@ -23,59 +23,56 @@ G4bool SensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory* /*ROhis
 {
     G4StepPoint* preStepPoint = aStep->GetPreStepPoint();
 
-
     G4Track* track = aStep->GetTrack();
     if (IsGeneratedInScoringVolume(aStep)) {
-       G4String particleName = track->GetDefinition()->GetParticleName();
-       G4String processName;
+        G4String particleName = track->GetDefinition()->GetParticleName();
+        G4String processName;
        
-       if (track->GetCreatorProcess() != nullptr) {
-           processName = track->GetCreatorProcess()->GetProcessName();
-       } else {
-           processName = "Unknown Process";
-       }    
-       G4ThreeVector pos = preStepPoint->GetPosition();
-       G4double initialEnergy = track->GetVertexKineticEnergy() / MeV;
+        if (track->GetCreatorProcess() != nullptr) {
+            processName = track->GetCreatorProcess()->GetProcessName();
+        } else {
+            processName = "Unknown Process";
+        }    
+        G4ThreeVector pos = preStepPoint->GetPosition();
+        G4double initialEnergy = track->GetVertexKineticEnergy() / MeV;
+        G4double energyDeposition = aStep->GetTotalEnergyDeposit() ; // Energy deposition in the detector
    
-       // Calculate cylindrical coordinates
+        // Calculate cylindrical coordinates
    
-           // Calculate TOF
-       G4double TOF = preStepPoint->GetGlobalTime(); // This is the time of flight
+        // Calculate TOF
+        G4double TOF = preStepPoint->GetGlobalTime(); // This is the time of flight
    
-       const G4VTouchable* touchable = aStep->GetPreStepPoint()->GetTouchable();
+        const G4VTouchable* touchable = aStep->GetPreStepPoint()->GetTouchable();
    
-       G4int copyNo = touchable->GetVolume()->GetCopyNo();
+        G4int copyNo = touchable->GetVolume()->GetCopyNo();
    
-       G4VPhysicalVolume* physicalVolume = touchable->GetVolume();
+        G4VPhysicalVolume* physicalVolume = touchable->GetVolume();
    
-       G4ThreeVector localPos = physicalVolume->GetTranslation();
+        G4ThreeVector localPos = physicalVolume->GetTranslation();
    
-       G4double x = pos.x();
-       G4double y = pos.y();
-       G4double z = pos.z();
-       G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+        G4double x = pos.x();
+        G4double y = pos.y();
+        G4double z = pos.z();
+        G4int evt = G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+        G4int parentID = track->GetParentID();
+    if (energyDeposition > 0.0) {
+        G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+        analysisManager->FillNtupleDColumn(2, x);
+        analysisManager->FillNtupleDColumn(3, y);
+        analysisManager->FillNtupleDColumn(4, z);
+        analysisManager->FillNtupleDColumn(5, initialEnergy);
+        analysisManager->FillNtupleDColumn(6, TOF); // TOF information
+        analysisManager->FillNtupleSColumn(7, particleName);
+        analysisManager->FillNtupleSColumn(8, processName);
+        analysisManager->FillNtupleIColumn(9, evt);
+        analysisManager->FillNtupleIColumn(10, parentID);
+        analysisManager->FillNtupleDColumn(11, energyDeposition); // Energy deposition in the detector
 
-       G4int parentID = track->GetParentID();
-
-
-
-
+        analysisManager->AddNtupleRow(0);
    
-       G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-       analysisManager->FillNtupleDColumn(2, x);
-       analysisManager->FillNtupleDColumn(3, y);
-       analysisManager->FillNtupleDColumn(4, z);
-       analysisManager->FillNtupleDColumn(5, initialEnergy);
-       analysisManager->FillNtupleDColumn(6, TOF); // TOF information
-       analysisManager->FillNtupleSColumn(7, particleName);
-       analysisManager->FillNtupleSColumn(8, processName);
-       analysisManager->FillNtupleIColumn(9, evt);
-       analysisManager->FillNtupleIColumn(10, parentID);
-       analysisManager->AddNtupleRow(0);
-   
-       // Set the track status to stop and kill
-       track->SetTrackStatus(fStopAndKill);
-
+        // Set the track status to stop and kill
+        track->SetTrackStatus(fStopAndKill);
+    }
     }
 
     return true;

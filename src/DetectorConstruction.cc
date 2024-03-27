@@ -142,7 +142,9 @@ void DetectorConstruction::DefineMaterials()
   G4Element* C = man->FindOrBuildElement("C"); //Fadd
   G4Element* Na = man->FindOrBuildElement("Na");
   G4Element* I = man->FindOrBuildElement("I");
-
+  G4Element* Lu = man->FindOrBuildElement("Lu");
+  G4Element* Si = man->FindOrBuildElement("Si");
+  G4Element* Y =man->FindOrBuildElement('Y');
   
   G4Material* H2O = 
   new G4Material("Water", 1.000*g/cm3, 2);
@@ -168,6 +170,61 @@ void DetectorConstruction::DefineMaterials()
   plexiglass->SetMaterialPropertiesTable(plexiglasMPT);
 
 ////
+    G4double densityLYSO = 7.25*g/cm3; // from EPIC
+    LYSO = new G4Material("LYSO", 7.25*g/cm3, 4); 
+    LYSO->AddElement(Lu,0.71446);
+    LYSO->AddElement(Y, 0.04034);
+    LYSO->AddElement(Si,0.06378);
+    LYSO->AddElement(O, 0.18142);
+    LYSO->GetIonisation()->SetMeanExcitationEnergy(411.0*eV);
+
+
+
+
+
+
+    // LYSO (from: https://www.crystals.saint-gobain.com/sites/imdf.crystals.com/files/documents/lyso-material-data-sheet_1.pdf)
+    G4double PhotonEnergy[]   = { 2.0667*eV, 2.2545*eV, 2.4800*eV, 2.7556*eV, 3.1000*eV};
+
+    G4double lyso_rindex[]    = {1.82, 1.82}; // (true for LYSO by epic is 1.82)
+    G4double lyso_absLength[] = {50.*cm, 50.*cm}; // https://www.sciencedirect.com/science/article/pii/S0168900206007820
+    //G4double lyso_fast[]      = {0.00, 0.01, 0.04, 0.12, 0.24, 0.12, 0.00}; // LYSO emission spectrum
+    
+    G4MaterialPropertiesTable* lyso_MPT = new G4MaterialPropertiesTable();
+    lyso_MPT->AddProperty("RINDEX",PhotonEnergy, lyso_rindex,    5);
+    //lyso_MPT->AddProperty("ABSLENGTH",     photon_energies, lyso_absLength, num_ph_en);
+    //lyso_MPT->AddProperty("SCINTILLATIONCOMPONENT1", PhotonEnergy,    lyso_fast,      sizeof(PhotonEnergy)/sizeof(G4double));
+    //lyso_MPT->AddProperty("SLOWCOMPONENT", PhotonEnergy, lyso_slow,      sizeof(PhotonEnergy)/sizeof(G4double));
+    //lyso_MPT->AddConstProperty("SCINTILLATIONYIELD", 29000/MeV); // ph/MeV (true for LYSO by EPIC is 29000 ph/MeV)
+    //RESOLUTIONSCALE broadens the statistical distribution of generated photons. A wider intrinsic resolution is due to impurities which are typical for doped crystals like NaI(Tl) and CsI(Tl). On the other hand, the intrinsic resolution can also be narrower when the Fano factor plays a role. The actual number of emitted photons during a step fluctuates around the mean number of photons with a width given by ResolutionScale*sqrt(MeanNumberOfPhotons). R = 1 if Poisson
+    //lyso_MPT->AddConstProperty("RESOLUTIONSCALE",    5.64); //R = resolutionscale*sqrt(yield) // 5.64 Gent????
+    // 'FASTSCINTILLATIONRISETIME' accounts for the rise time of the scintillator
+    //lyso_MPT->AddConstProperty("SCINTILLATIONRISETIME1", 0.0*ns); // to be updated
+    // The time constant for the time evolution of the number of scintillation photons (i.e. tau in the formula 'A*exp(-t/tau)' )
+    // You can specify two decay constants, one for the fast scintillation component and one for the slow component.
+    //lyso_MPT->AddConstProperty("SCINTILLATIONTIMECONSTANT1",  42.0*ns);
+    //lyso_MPT->AddConstProperty("SLOWTIMECONSTANT",   10000.*ns);
+    //lyso_MPT->AddConstProperty("YIELDRATIO",         1.0); // relative strength of the fast component as a fraction of total scintillation yield
+    
+//     LYSO->GetIonisation()->SetBirksConstant(3.679e-1*mm/MeV);
+    LYSO->SetMaterialPropertiesTable(lyso_MPT);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
   // Assign the material properties table to Plexiglas
@@ -230,8 +287,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   //
   // World
   //
-G4double worldSizeX = fAbsorSizeX*100;  // Make the world volume twice as big as the absorber
-G4double worldSizeYZ = fAbsorSizeYZ*100; 
+G4double worldSizeX = fAbsorSizeX*10;  // Make the world volume twice as big as the absorber
+G4double worldSizeYZ = fAbsorSizeYZ*10; 
 
 G4Box* solidWorld =
   new G4Box("World",
@@ -647,9 +704,9 @@ G4Box* solidWorld =
 
   fscoringVolume = logicScintillator;
 
-  solidDetector= new G4Box("solidDetector", 1.25*cm, 1.25*cm, 1*mm); //prende il doppio della dimensione
+  solidDetector= new G4Box("solidDetector", 1.25*cm, 1.25*cm, 10*mm); //prende il doppio della dimensione
 
-  logicDetector= new G4LogicalVolume(solidDetector, man->FindOrBuildMaterial("G4_SODIUM_IODIDE"),"logicDetector");
+  logicDetector= new G4LogicalVolume(solidDetector, man->FindOrBuildMaterial("LYSO"),"logicDetector");
 
   for(G4int i=0;i<1;i++)
   {
@@ -664,7 +721,7 @@ G4Box* solidWorld =
       //G4Translate3D transXscint(G4ThreeVector(-40*cm + i*20*mm,0.*mm,5./tan(1.8/2*deg)*mm + 5.*mm ));
 
       //G4Translate3D transXdet(G4ThreeVector( ));  //prende la metà della dimensione -45
-      G4Translate3D transXdet(G4ThreeVector( 15*cm-j*30*cm,0*cm,30*cm));  //prende la metà della dimensione -45
+      G4Translate3D transXdet(G4ThreeVector( 5*cm-j*10*cm,0*cm,10*cm));  //prende la metà della dimensione -45
 
       //6*cm-j*12*cm
       //-40*cm + i*10*mm Direzione lungo asse x
