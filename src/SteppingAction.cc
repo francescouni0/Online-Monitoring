@@ -78,28 +78,28 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     // Get the particle's name
     G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
 
-    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
-    if (volume && volume->GetName() == "Plexiglass") {
-        // Retrieve the kinetic energy and position
-        G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
-        G4double energyDeposited = step->GetTotalEnergyDeposit();
-        G4double kineticEnergyexit = step->GetPostStepPoint()->GetKineticEnergy();
-        G4double Dep=kineticEnergy-kineticEnergyexit;
-        G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
-        G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-
-
-        // Save the data to a file named after the particle name
-        std::string fileName = particleName + "_entering_particles.csv";
-        std::ofstream outputFile(fileName, std::ios_base::app);
-        if (outputFile.is_open()) {
-            outputFile << Dep / keV << "," << position.x() / mm << ","
-                       << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
-            outputFile.close();
-        } else {
-            G4cout << "Unable to open the output file." << G4endl;
-        }
-    }
+//    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
+//    if (volume && volume->GetName() == "Plexiglass") {
+//        // Retrieve the kinetic energy and position
+//        G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+//        G4double energyDeposited = step->GetTotalEnergyDeposit();
+//        G4double kineticEnergyexit = step->GetPostStepPoint()->GetKineticEnergy();
+//        G4double Dep=kineticEnergy-kineticEnergyexit;
+//        G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
+//        G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+//
+//
+//        // Save the data to a file named after the particle name
+//        std::string fileName = particleName + "_entering_particles.csv";
+//        std::ofstream outputFile(fileName, std::ios_base::app);
+//        if (outputFile.is_open()) {
+//            outputFile << Dep / keV << "," << position.x() / mm << ","
+//                       << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
+//            outputFile.close();
+//        } else {
+//            G4cout << "Unable to open the output file." << G4endl;
+//        }
+//    }
 
     // Get the particle's name
     //G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
@@ -154,29 +154,29 @@ if (particleName == "O15")
 
 ///EDEP FADD (Da commentare per grandi eventi perche fa file giganti)
 
-    if (volume && volume->GetName() == "Plexiglass") {
-
-    G4double edep = step->GetTotalEnergyDeposit();
-           
-    //longitudinal profile of deposited energy
-    //randomize point of energy deposotion
-    //
-    G4StepPoint* prePoint  = step->GetPreStepPoint();
-    G4StepPoint* postPoint = step->GetPostStepPoint(); 
-    G4ThreeVector P1 = prePoint ->GetPosition();
-    G4ThreeVector P2 = postPoint->GetPosition();
-    G4ThreeVector point = P1 + G4UniformRand()*(P2 - P1);
-    if (step->GetTrack()->GetDefinition()->GetPDGCharge() == 0.) point = P2;
-    G4double xloc = point.x();
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-
-    analysisManager->FillNtupleFColumn(0, edep);
-    analysisManager->FillNtupleFColumn(1, xloc);
-
-    analysisManager->AddNtupleRow(0);
-
-    }
+//    if (volume && volume->GetName() == "Plexiglass") {
 //
+//    G4double edep = step->GetTotalEnergyDeposit();
+//           
+//    //longitudinal profile of deposited energy
+//    //randomize point of energy deposotion
+//    //
+//    G4StepPoint* prePoint  = step->GetPreStepPoint();
+//    G4StepPoint* postPoint = step->GetPostStepPoint(); 
+//    G4ThreeVector P1 = prePoint ->GetPosition();
+//    G4ThreeVector P2 = postPoint->GetPosition();
+//    G4ThreeVector point = P1 + G4UniformRand()*(P2 - P1);
+//    if (step->GetTrack()->GetDefinition()->GetPDGCharge() == 0.) point = P2;
+//    G4double xloc = point.x();
+//    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+//
+//    analysisManager->FillNtupleFColumn(0, edep);
+//    analysisManager->FillNtupleFColumn(1, xloc);
+//
+//    analysisManager->AddNtupleRow(0);
+//
+//    }
+////
 
 
 

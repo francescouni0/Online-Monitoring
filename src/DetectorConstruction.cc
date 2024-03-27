@@ -128,6 +128,7 @@ void DetectorConstruction::DefineMaterials()
   man->FindOrBuildMaterial("G4_W");
   man->FindOrBuildMaterial("G4_Au");
   man->FindOrBuildMaterial("G4_Pb");  
+  
   man->FindOrBuildMaterial("G4_PbWO4");
   man->FindOrBuildMaterial("G4_GRAPHITE");
   man->FindOrBuildMaterial("G4_AIR");
@@ -230,8 +231,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   //
   // World
   //
-G4double worldSizeX = fAbsorSizeX*100;  // Make the world volume twice as big as the absorber
-G4double worldSizeYZ = fAbsorSizeYZ*100; 
+G4double worldSizeX = fAbsorSizeX*10;  // Make the world volume twice as big as the absorber
+G4double worldSizeYZ = fAbsorSizeYZ*10; 
 
 G4Box* solidWorld =
   new G4Box("World",
@@ -352,25 +353,27 @@ G4Box* solidWorld =
 //                    0);
 //
 
-///TARGHETTA
-//  G4Material* tung = nist->FindOrBuildMaterial("G4_W");
-//  G4Box* solidBox2 = new G4Box("Comp2",8*mm, (2.5/2)*cm, 1*cm);
-//
-//  G4LogicalVolume* logicBox2 =
-//      new G4LogicalVolume(solidBox2,
-//                          tung, 
-//                          "Comp2");
-//  G4ThreeVector boxposition2= G4ThreeVector(-28*mm, 0, 0);
-//  logicBox2->SetVisAttributes(VisAtt2);
-//
-//  new G4PVPlacement(0,
-//                    boxposition2,
-//                    logicBox2,
-//                    "Comp2",
-//                    logicWorld,
-//                    false,
-//                    0);
-//
+//TARGHETTA
+  G4Material* tung = nist->FindOrBuildMaterial("G4_Ta");
+  G4Box* solidBox2 = new G4Box("Comp2",3*mm, (2.5/2)*cm, 1*cm);
+
+  // x targhetta+ metà fantoccio
+
+  G4LogicalVolume* logicBox2 =
+      new G4LogicalVolume(solidBox2,
+                          tung, 
+                          "Comp2");
+  G4ThreeVector boxposition2= G4ThreeVector(-28*mm, 0, 0);
+  logicBox2->SetVisAttributes(VisAtt2);
+
+  new G4PVPlacement(0,
+                    boxposition2,
+                    logicBox2,
+                    "Comp2",
+                    logicWorld,
+                    false,
+                    0);
+
 
 
 
@@ -582,10 +585,10 @@ G4Box* solidWorld =
   for (G4int k=1; k<=fNbOfAbsor; k++) {
     G4Material* material = fAbsorMaterial[k];
     G4String matname = material->GetName();
-    G4Tubs* solidAbsor = new G4Tubs(matname, 0, 0.5*fAbsorSizeYZ, 0.5*fAbsorSizeX, 0, 2*M_PI);
+    //G4Tubs* solidAbsor = new G4Tubs(matname, 0, 0.5*fAbsorSizeYZ, 0.5*fAbsorSizeX, 0, 2*M_PI);
       
-   // G4Box* solidAbsor =
-   //   new G4Box(matname,fAbsorThickness[k]/2,(2.5/2)*cm,1*cm);
+    G4Box* solidAbsor =
+      new G4Box(matname,fAbsorThickness[k]/2,(2.5/2)*cm,1*cm);
 
     G4LogicalVolume* logicAbsor =
       new G4LogicalVolume(solidAbsor,           // solid
@@ -603,7 +606,7 @@ G4Box* solidWorld =
     rotationTub->rotateY(-90.0 * deg);
 
   
-      new G4PVPlacement(rotationTub,                     //no rotation
+      new G4PVPlacement(0,                     //no rotation
                               G4ThreeVector(0.,0.,0.),        //position
                         logicAbsor,            //logical volume        
                         matname,               //name
@@ -651,9 +654,9 @@ G4Box* solidWorld =
 
   logicDetector= new G4LogicalVolume(solidDetector, man->FindOrBuildMaterial("G4_SODIUM_IODIDE"),"logicDetector");
 
-  for(G4int i=0;i<0;i++)
+  for(G4int i=0;i<1;i++)
   {
-    for(G4int j=0;j<0;j++)
+    for(G4int j=0;j<1;j++)
     {
       //G4Rotate3D rotZ(j*180*deg, G4ThreeVector(0,1,0));
       //fondo
