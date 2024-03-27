@@ -41,6 +41,7 @@
 #include "G4ParticleDefinition.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
+#include "G4RandomDirection.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -72,8 +73,8 @@ void PrimaryGeneratorAction::SetDefaultKinematic()
   fParticleGun->SetParticleDefinition(particle);
   fParticleGun->SetParticleEnergy(500*keV);  
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(1.,0.,0.));
-  G4double position = -2*(fDetector->GetAbsorSizeX());
-  fParticleGun->SetParticlePosition(G4ThreeVector(position,0.*cm,0.*cm));
+
+  
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -89,7 +90,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
       if (fRndmBeam > fDetector->GetAbsorSizeYZ())
         fRndmBeam = fDetector->GetAbsorSizeYZ(); 
       G4double rbeam = 0.5*fRndmBeam;
-      G4double x0 = oldPosition.x();
+      G4double x0 = -20*cm;
       G4double y0 = oldPosition.y() + (2*G4UniformRand()-1.)*rbeam;
       G4double z0 = oldPosition.z() + (2*G4UniformRand()-1.)*rbeam;
       fParticleGun->SetParticlePosition(G4ThreeVector(x0,y0,z0));
@@ -97,7 +98,16 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
       fParticleGun->SetParticlePosition(oldPosition);      
     }
 
-  else fParticleGun->GeneratePrimaryVertex(anEvent);
+  else 
+   {
+    G4double position = -2*(fDetector->GetAbsorSizeX());
+    G4double y=2*(G4UniformRand()-0.5)*4*mm;
+    G4double z=2*(G4UniformRand()-0.5)*4*mm;
+    G4ThreeVector rndvector = G4RandomDirection();
+    fParticleGun->SetParticlePosition(G4ThreeVector(position,rndvector.x()*y,rndvector.y()*z));
+  
+    fParticleGun->GeneratePrimaryVertex(anEvent);
+   }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
