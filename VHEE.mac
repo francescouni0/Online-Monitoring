@@ -39,5 +39,5 @@
 ##
 /testem/applyAutomaticStepMax false
 #
-/run/printProgress 100000
-/run/beamOn 100000
+/run/printProgress 10000
+/run/beamOn 10000000

@@ -89,6 +89,11 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         G4double Dep=kineticEnergy-kineticEnergyexit;
         G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
         G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+        // Compute the momentum direction
+        G4ThreeVector momentumDirection = step->GetPreStepPoint()->GetMomentumDirection();
+
+        // You can now use the momentumDirection vector for further calculations or operations
+        
 
 
         // Save the data to a file named after the particle name
@@ -96,89 +101,97 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
         std::ofstream outputFile(fileName, std::ios_base::app);
         if (outputFile.is_open()) {
             outputFile << Dep / keV << "," << position.x() / mm << ","
-                       << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
+                       << position.y() / mm << "," << position.z() / mm << ","
+                       << momentumDirection.x() << "," << momentumDirection.y() << "," << momentumDirection.z() << ","
+                       << evt << std::endl;
             outputFile.close();
         } else {
             G4cout << "Unable to open the output file." << G4endl;
         }
 }
-    }
-
-    // Get the particle's name
-    //G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
+//    }
 //
-if (particleName == "C11")
-{
-    // Check if the particle is entering the "Tube" volume
-    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
-    // Retrieve the kinetic energy and position
-    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
-    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
-    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-    G4ThreeVector pmomentum = step->GetPreStepPoint()->GetMomentumDirection();
-    // Save the data to a file named after the particle name
-    std::string fileName = particleName + "_entering_particles.csv";
-    std::ofstream outputFile(fileName, std::ios_base::app);
-    if (outputFile.is_open()) {
-        outputFile << kineticEnergy / keV << "," 
-                   << position.x() / mm << ","
-                   << position.y() / mm << "," 
-                   << position.z() / mm << ","
-                   << pmomentum.x()  << ","
-                   << pmomentum.y()  << "," 
-                   << pmomentum.z()  << ","
-                   << evt 
-                   << std::endl;
-        outputFile.close();
-    } else {
-        G4cout << "Unable to open the output file." << G4endl;
-    }  
-}
-if (particleName == "O15")
-{
-    // Check if the particle is entering the "Tube" volume
-    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
-    // Retrieve the kinetic energy and position
-    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
-    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
-    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
-    // Save the data to a file named after the particle name
-    std::string fileName = particleName + "_entering_particles.csv";
-    std::ofstream outputFile(fileName, std::ios_base::app);
-    if (outputFile.is_open()) {
-        outputFile << kineticEnergy / keV << "," << position.x() / mm << ","
-                   << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
-        outputFile.close();
-    } else {
-        G4cout << "Unable to open the output file." << G4endl;
-    }
-    
-}
+//    // Get the particle's name
+//    //G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
+////
+//if (particleName == "C11")
+//{
+//    // Check if the particle is entering the "Tube" volume
+//    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
+//    // Retrieve the kinetic energy and position
+//    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+//    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
+//    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+//    G4ThreeVector pmomentum = step->GetPreStepPoint()->GetMomentumDirection();
+//    // Save the data to a file named after the particle name
+//    std::string fileName = particleName + "_entering_particles.csv";
+//    std::ofstream outputFile(fileName, std::ios_base::app);
+//    if (outputFile.is_open()) {
+//        outputFile << kineticEnergy / keV << "," 
+//                   << position.x() / mm << ","
+//                   << position.y() / mm << "," 
+//                   << position.z() / mm << ","
+//                   << pmomentum.x()  << ","
+//                   << pmomentum.y()  << "," 
+//                   << pmomentum.z()  << ","
+//                   << evt 
+//                   << std::endl;
+//        outputFile.close();
+//    } else {
+//        G4cout << "Unable to open the output file." << G4endl;
+//    }  
+//}
+//if (particleName == "O15")
+//{
+//    // Check if the particle is entering the "Tube" volume
+//    G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
+//    // Retrieve the kinetic energy and position
+//    G4double kineticEnergy = step->GetPreStepPoint()->GetKineticEnergy();
+//    G4ThreeVector position = step->GetPreStepPoint()->GetPosition();
+//    G4int evt= G4RunManager::GetRunManager()->GetCurrentEvent()->GetEventID();
+//    // Save the data to a file named after the particle name
+//    std::string fileName = particleName + "_entering_particles.csv";
+//    std::ofstream outputFile(fileName, std::ios_base::app);
+//    if (outputFile.is_open()) {
+//        outputFile << kineticEnergy / keV << "," << position.x() / mm << ","
+//                   << position.y() / mm << "," << position.z() / mm << ","<< evt << std::endl;
+//        outputFile.close();
+//    } else {
+//        G4cout << "Unable to open the output file." << G4endl;
+//    }
+//    
+//}
 
 ///EDEP FADD (Da commentare per grandi eventi perche fa file giganti)
 
-//    if (volume && volume->GetName() == "Plexiglass") {
-//
-//    G4double edep = step->GetTotalEnergyDeposit();
-//           
-//    //longitudinal profile of deposited energy
-//    //randomize point of energy deposotion
-//    //
-//    G4StepPoint* prePoint  = step->GetPreStepPoint();
-//    G4StepPoint* postPoint = step->GetPostStepPoint(); 
-//    G4ThreeVector P1 = prePoint ->GetPosition();
-//    G4ThreeVector P2 = postPoint->GetPosition();
-//    G4ThreeVector point = P1 + G4UniformRand()*(P2 - P1);
-//    if (step->GetTrack()->GetDefinition()->GetPDGCharge() == 0.) point = P2;
-//    G4double xloc = point.x();
-//    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-//
-//    analysisManager->FillNtupleFColumn(0, edep);
-//    analysisManager->FillNtupleFColumn(1, xloc);
-//
-//    analysisManager->AddNtupleRow(0);
-//
-//    }
+    if (volume && volume->GetName() == "Plexiglass") {
+
+    G4double edep = step->GetTotalEnergyDeposit();
+
+    if (edep <= 0.) return;
+
+    if (edep>0){
+    //longitudinal profile of deposited energy
+    //randomize point of energy deposotion
+    //
+    G4StepPoint* prePoint  = step->GetPreStepPoint();
+    G4StepPoint* postPoint = step->GetPostStepPoint(); 
+    G4ThreeVector P1 = prePoint ->GetPosition();
+    G4ThreeVector P2 = postPoint->GetPosition();
+    G4ThreeVector point = P1 + G4UniformRand()*(P2 - P1);
+    if (step->GetTrack()->GetDefinition()->GetPDGCharge() == 0.) point = P2;
+    G4double xloc = point.x();
+    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+    analysisManager->FillNtupleFColumn(0, edep);
+    analysisManager->FillNtupleFColumn(1, xloc);
+
+    analysisManager->AddNtupleRow(0);
+    }
+    
+
+    }
+    }
 
 //
 
