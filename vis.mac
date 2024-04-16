@@ -15,7 +15,7 @@
 # Use this open statement to create a .prim file suitable for
 # viewing in DAWN:
 #
-/vis/open DAWNFILE
+#/vis/open DAWNFILE
 #
 # Use this open statement to create a .heprep file suitable for
 # viewing in HepRApp:

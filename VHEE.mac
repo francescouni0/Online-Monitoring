@@ -21,11 +21,11 @@
 #/physics_lists/em/GammaNuclear true
 #
 /run/initialize
-
+/process/em/UseGeneralProcess false
 #
 /testem/gun/setDefault
 /gun/particle e-
-/gun/energy 150 MeV
+/gun/energy 80 MeV
 #/gun/number 10
 
 

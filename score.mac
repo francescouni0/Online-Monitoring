@@ -48,7 +48,7 @@
 
 
 
-/score/dumpQuantityToFile boxMesh_1 eDep edep2d.txt
+/score/dumpQuantityToFile boxMesh_1 eDep edep2d80.txt
 /vis/enable
 /vis/scene/add/axes 0 0 0 100 cm
 
