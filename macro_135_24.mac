@@ -34,7 +34,6 @@
 #/analysis/h1/set 4  10 0.   20. um
 #/analysis/h1/set 5 100 0.    300. mm
 #
-/testem/applyAutomaticStepMax false
 #
 /run/printProgress 1000
 /run/beamOn 10000
