@@ -25,7 +25,7 @@
 #/physics_lists/em/GammaNuclear true
 #
 /run/initialize
-/process/em/UseGeneralProcess false
+#/process/em/UseGeneralProcess false
 #
 /testem/gun/setDefault
 /gun/particle e-
@@ -44,4 +44,4 @@
 /testem/applyAutomaticStepMax false
 #
 /run/printProgress 10000
-/run/beamOn 10000000
+/run/beamOn 10000

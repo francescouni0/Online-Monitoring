@@ -7,9 +7,9 @@
 /run/verbose 1
 #
 /testem/det/setNbOfAbsor  3
-/testem/det/setAbsor 2 G4_AIR   2 cm
 /testem/det/setAbsor 1 Plexiglass   2 cm
-/testem/det/setAbsor 2 Plexiglass   26 cm
+/testem/det/setAbsor 2 G4_AIR   2 cm
+/testem/det/setAbsor 3 Plexiglass   26 cm
 #
 /testem/det/setSizeYZ 120 mm
 #
@@ -20,7 +20,7 @@
 #/physics_lists/em/GammaNuclear true
 #
 /run/initialize
-/process/em/UseGeneralProcess false
+#/process/em/UseGeneralProcess false
 #
 /testem/gun/setDefault
 /gun/particle e-
@@ -36,5 +36,5 @@
 #
 /testem/applyAutomaticStepMax false
 #
-/run/printProgress 10000
-/run/beamOn 10000000
+/run/printProgress 1000
+/run/beamOn 10000
