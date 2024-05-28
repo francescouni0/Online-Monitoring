@@ -79,7 +79,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     G4String particleName = step->GetTrack()->GetDefinition()->GetParticleName();
 
     G4VPhysicalVolume* volume = step->GetPreStepPoint()->GetPhysicalVolume();
-    if (volume && volume->GetName() == "Plexiglass") {
+    //if (volume && volume->GetName() == "Plexiglass") {
         if (particleName == "gamma")
 {
         // Retrieve the kinetic energy and position
@@ -191,7 +191,34 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     
 
     }
+    if (volume && volume->GetName() == "G4_BONE_COMPACT_ICRU") {
+
+    G4double edep = step->GetTotalEnergyDeposit();
+
+    if (edep <= 0.) return;
+
+    if (edep>0){
+    //longitudinal profile of deposited energy
+    //randomize point of energy deposotion
+    //
+    G4StepPoint* prePoint  = step->GetPreStepPoint();
+    G4StepPoint* postPoint = step->GetPostStepPoint(); 
+    G4ThreeVector P1 = prePoint ->GetPosition();
+    G4ThreeVector P2 = postPoint->GetPosition();
+    G4ThreeVector point = P1 + G4UniformRand()*(P2 - P1);
+    if (step->GetTrack()->GetDefinition()->GetPDGCharge() == 0.) point = P2;
+    G4double xloc = point.x();
+    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+
+    analysisManager->FillNtupleFColumn(0, edep);
+    analysisManager->FillNtupleFColumn(1, xloc);
+
+    analysisManager->AddNtupleRow(0);
     }
+    
+
+    }
+    
 
 //
 

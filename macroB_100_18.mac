@@ -1,0 +1,39 @@
+# Macro file for TestEm11
+#
+# limit the step size from histo 1
+#
+/control/cout/ignoreThreadsExcept 0
+/control/verbose 2
+/run/verbose 1
+#
+/testem/det/setNbOfAbsor  3
+/testem/det/setAbsor 1 Plexiglass   18 cm
+/testem/det/setAbsor 2 G4_BONE_COMPACT_ICRU   2 cm
+/testem/det/setAbsor 3 Plexiglass   10 cm
+#
+/testem/det/setSizeYZ 120 mm
+#
+#
+# Hadronic physics (for neutron production)
+#
+#/testem/phys/addPhysics  local  	# em physics
+#/physics_lists/em/GammaNuclear true
+#
+/run/initialize
+#/process/em/UseGeneralProcess false
+#
+/testem/gun/setDefault
+/gun/particle e-
+/gun/energy 100 MeV
+#/gun/number 10
+#
+#/analysis/setFileName VHEE
+#/analysis/h1/set 1 100 0.    600. mm
+#/analysis/h1/set 2 102 0. 160. MeV
+#/analysis/h1/set 3 100 0.    2. mm
+#/analysis/h1/set 4  10 0.   20. um
+#/analysis/h1/set 5 100 0.    300. mm
+#
+#
+/run/printProgress 1000
+/run/beamOn 10000
