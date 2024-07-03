@@ -11,6 +11,7 @@ import scipy.stats as stats
 
 root_files = []
 csv_files = []
+a=np.array([]).reshape(0,50)
 
 # Get the list of root and csv files in the build/train directory
 for file in os.listdir("build/train"):
@@ -25,6 +26,7 @@ csv_files.sort()
 
 # Process the files in pairs
 for root_file, csv_file in zip(root_files, csv_files):
+    b=[]
     root_file_path = os.path.join("build/train", root_file)
     csv_file_path = os.path.join("build/train", csv_file)
 
@@ -50,7 +52,7 @@ for root_file, csv_file in zip(root_files, csv_files):
     bin_centers_x = (x_edges[:-1] + x_edges[1:]) / 2
 
     #plt.hist(bin_centers_x, weights=hist_slice, color='blue', bins=25, histtype='step', density=True)
-#
+
     ## Add labels and title
     #plt.xlabel('X[mm]')
     #plt.ylabel('Frequency')
@@ -64,21 +66,28 @@ for root_file, csv_file in zip(root_files, csv_files):
 
     hist, x_edges = np.histogram(xloc, weights=edep, bins=25)
     bin_centers = (x_edges[:-1] + x_edges[1:]) / 2
-
+    hist = hist / np.sum(hist)
     #plt.hist(bin_centers, weights=hist, color='goldenrod', bins=25, histtype='step', range=(-150, 150))
     #plt.xlabel('X[mm]')
     #plt.ylabel('Absolute Dose [a.u]')
     #plt.xlim(-150, 150)
-#
+
     #plt.show()
+    b = np.hstack((hist_slice, hist))
+    a = np.vstack((a, b))
+    np.savetxt('build/train/merged.csv', a, delimiter=',')
+    print(np.shape(a))
+
 
 
 ####################################################
-a=np.hstack((hist_slice, hist))
+print(np.shape(a))
+print(np.shape(bin_centers))
 
-
-plt.hist(bin_centers,a[0:24], bins=25, histtype='step')
-plt.hist(bin_centers,a[25:49], bins=25, histtype='step')
+plt.hist(bin_centers,weights=a[0][0:25], bins=25, histtype='step')
 plt.show()
 
-np.savetxt('build/train/merged.csv', a, delimiter=',')
+plt.hist(bin_centers,weights=a[0][25:50], bins=25, histtype='step')
+plt.show()
+
+
