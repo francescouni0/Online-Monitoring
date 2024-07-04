@@ -714,7 +714,20 @@ macroB_150_18.mac
 macroB_150_20.mac
 macroB_150_22.mac
 macroB_150_24.mac
-macroB_150_26.mac  )
+macroB_150_26.mac  
+macrofull_50_30.mac
+macrofull_60_30.mac
+macrofull_70_30.mac
+macrofull_80_30.mac
+macrofull_90_30.mac
+macrofull_100_30.mac
+macrofull_110_30.mac
+macrofull_120_30.mac
+macrofull_130_30.mac
+macrofull_140_30.mac
+macrofull_150_30.mac
+
+)
   
 foreach(_script ${TestEm11_SCRIPTS})
   configure_file(
